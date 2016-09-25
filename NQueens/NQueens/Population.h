@@ -1,11 +1,11 @@
 #include "Genotype.h"
 
-class Population : Genotype {
+class Population : public Genotype {
 
 public:
 	Population(int n);
 	void buildPopulation();
-	Genotype Crossover(const Genotype rentOne, const Genotype rentTwo, int split);
+	Genotype Crossover(const Genotype rentOne, const Genotype rentTwo, int split) const;
 
 private:
 	int populationSize;
