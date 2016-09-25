@@ -19,12 +19,22 @@ Genotype::Genotype(const int s)
 
 }
 
-int * Genotype::GetArrPointer()
+GenotypeLocs Genotype::GetGenotypeLocs()
 {
 	return gl;
 }
 
-void Genotype::SetArrPointer(int * ptr)
+void Genotype::SetGenotypeLocs(GenotypeLocs locs)
+{
+	gl = locs;
+}
+
+int * Genotype::GetArrPointer() 
+{
+	return gl;
+}
+
+void Genotype::SetArrPointer(int * ptr) 
 {
 	gl = ptr;
 }
