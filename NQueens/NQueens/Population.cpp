@@ -1,9 +1,11 @@
 #include "Population.h"
 
-Population::Population(int n) {
+Population::Population(int n, bool build) {
 	N = n;
+	size = 0;
 	populationSize = n * 10;
-	buildPopulation();
+	if (build)
+		buildPopulation();
 }
 
 void Population::buildPopulation() {
@@ -12,6 +14,7 @@ void Population::buildPopulation() {
 		gts[i] = Genotype(N);
 		if (getRandom(N) > (N/10))
 			gts[i].MutateGenotype(getRandom(N), getRandom(N));
+		size++;
 	}
 }
 
@@ -30,6 +33,13 @@ void Population::addChildren(Population p, int totalChildren) {
 	}
 }
 
+void Population::addChild(Genotype gt) {
+	if (size < N - 1) {
+		gts[size] = gt;
+		size++;
+	}
+}
+
 Genotype Population::Crossover(Genotype & rentOne, Genotype & rentTwo, int split) {
 	GenotypeLocs one = rentOne.GetGenotypeLocs();
 
@@ -44,9 +54,11 @@ Genotype Population::Crossover(Genotype & rentOne, Genotype & rentTwo, int split
 		feedus[i] = two[i];
 
 	Genotype child = Genotype(rentOne.getArrSize());
+	if (getRandom(N) > (N / 10))
+		child.MutateGenotype(getRandom(N), getRandom(N));
 
 	child.SetGenotypeLocs(feedus);
-	
+
 	return child;
 }
 
