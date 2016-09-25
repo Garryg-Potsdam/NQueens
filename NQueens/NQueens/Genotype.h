@@ -12,7 +12,7 @@ public:
 
 	Genotype Crossover(const Genotype rentOne, const Genotype rentTwo, int split);
 
-	Genotype Mutate(const Genotype old) const;
+	Genotype Mutate(const Genotype old, int one, int two) const;
 
 protected:
 	void SetSize(int size);
