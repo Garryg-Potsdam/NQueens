@@ -56,6 +56,8 @@ protected:
 	void SetSize(int size);
 
 private:
+	std::string PrintTopAndBottom();
+
 	GenotypeLocs gl;
 	int arrSize;
 	float fitness;

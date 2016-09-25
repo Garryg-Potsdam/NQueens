@@ -112,6 +112,18 @@ std::string Genotype::ToString()
 {
 	std::string ans;
 
+
+
+	for (int i = arrSize - 1; i > 0; i--)
+	{
+
+
+		for (int j = 0; j < arrSize; j++)
+		{
+
+		}
+	}
+
 	return ans;
 }
 
@@ -209,3 +221,13 @@ void Genotype::SetSize(int size)
 	arrSize = size;
 }
 
+/////////////////////////////////////////////////////////////////////////////
+//                             Private Methods                             //
+/////////////////////////////////////////////////////////////////////////////
+
+std::string Genotype::PrintTopAndBottom()
+{
+	std::string ans;
+
+	return ans;
+}
