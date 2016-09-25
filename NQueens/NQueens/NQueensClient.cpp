@@ -26,7 +26,7 @@ int main() {
 bool foundSolution(Population pop, int N) {
 	for (int i = 0; i < N * 10; i++) {
 		if (pop.getGenotype(i).getFitness() == 0) {
-			
+			return true;
 		}
 	}
 }
