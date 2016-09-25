@@ -21,12 +21,24 @@
     <ClCompile Include="GameBoard.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Population.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Genotype.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameBoard.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="LocRec.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Genotype.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Population.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
