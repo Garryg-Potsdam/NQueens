@@ -152,6 +152,7 @@
     <ClCompile Include="Population.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ExceptionClass.h" />
     <ClInclude Include="GameBoard.h" />
     <ClInclude Include="Genotype.h" />
     <ClInclude Include="LocRec.h" />

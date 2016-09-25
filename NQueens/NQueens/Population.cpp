@@ -39,5 +39,7 @@ Genotype Population::Crossover(Genotype & rentOne, Genotype & rentTwo, int split
 	Genotype child = Genotype(rentOne.getArrSize());
 
 	child.SetGenotypeLocs(feedus);
+	
+	return child;
 }
 

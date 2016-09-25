@@ -1,4 +1,4 @@
-//#include 
+#include "ExceptionClass.h"
 
 const int DEFAULT_SIZE = 8;
 
@@ -23,16 +23,30 @@ public:
 
 	bool WasSelectedForMatingPool();
 
-	void SetSelectedForMatingPool();
+	void SetSelectedForMatingPool(bool set);
 
-	//virtual bool operator<=()
+	virtual bool operator<=(const Genotype & rtOp) const;
+
+	virtual bool operator>=(const Genotype & rtOp) const;
+
+	virtual bool operator<(const Genotype & rtOp) const;
+
+	virtual bool operator>(const Genotype & rtOp) const;
+
+	virtual bool operator==(const Genotype & rtOp) const;
+
+	virtual bool operator!=(const Genotype & rtOp) const;
 
 protected:
 	void GenerateGenotype(int s);
 
 	void CalculateFitness();
 	
-	//int * GetArrPointer();
+	int GetRowCollisions();
+
+	int GetDiaCollisions();
+
+	//int GetDiaCollisions(int m);
 
 	void SetArrPointer(int * ptr);
 
@@ -42,5 +56,5 @@ private:
 	GenotypeLocs gl;
 	int arrSize;
 	float fitness;
-	bool mFlag
+	bool mFlag;
 };
