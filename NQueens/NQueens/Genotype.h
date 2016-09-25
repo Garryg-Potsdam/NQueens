@@ -9,11 +9,14 @@ class Genotype
 public:
 	Genotype();
 	Genotype(int size);
-	
-	Genotype Mutate(const Genotype old) const;
-	int getArrSize();
+
+	Genotype Crossover(const Genotype rentOne, const Genotype rentTwo, int split);
+
+	Genotype Mutate(const Genotype old, int one, int two) const;
 
 protected:
+	GenotypeLocs GetArrPointer();
+	
 	void SetSize(int size);
 
 private:
