@@ -1,3 +1,11 @@
+/*
+	Author:		Garry Griggs & Gregory Hughes
+	Date:		9/25/2016
+	Project:	NQueens
+	FileName:	NQueensClient.cpp
+	Purpose:	The main client for running NQueens GA
+*/
+
 #include "Population.h"
 
 using namespace std;
