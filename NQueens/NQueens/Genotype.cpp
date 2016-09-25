@@ -1,22 +1,27 @@
 #include "Genotype.h"
+#include <iostream>
+
+/////////////////////////////////////////////////////////////////////////////
+//                             Public Methods                              //
+/////////////////////////////////////////////////////////////////////////////
 
 Genotype::Genotype()
 {
 	Genotype(DEFAULT_SIZE);
 }
 
-
 Genotype::Genotype(const int s)
 {
-	GenotypeLocs nGl;
-
-	nGl = new int[s];
-
-	for (int i = 0; i < s; i++)
-		nGl[i] = -1;
+	GenerateGenotype(s);
 
 	SetSize(s);
 
+	CalculateFitness();
+}
+
+int Genotype::getArrSize() const 
+{
+	return arrSize;
 }
 
 GenotypeLocs Genotype::GetGenotypeLocs()
@@ -38,10 +43,48 @@ void Genotype::MutateGenotype(int one, int two)
 	gl[two] = temp;
 }
 
-int * Genotype::GetArrPointer() 
+float Genotype::GetFitness()
 {
-	return gl;
+	return fitness;
 }
+
+bool Genotype::WasSelectedForMatingPool()
+{
+
+}
+
+void Genotype::SetSelectedForMatingPool()
+{
+
+}
+
+
+/////////////////////////////////////////////////////////////////////////////
+//                           Protected Methods                             //
+/////////////////////////////////////////////////////////////////////////////
+
+
+void Genotype::GenerateGenotype(int s)
+{
+	GenotypeLocs nGl;
+
+	nGl = new int[s];
+
+	for (int i = 0; i < s; i++)
+		nGl[i] = rand() % s;
+
+	gl = nGl;
+}
+
+void Genotype::CalculateFitness()
+{
+
+}
+
+//int * Genotype::GetArrPointer() 
+//{
+//	return gl;
+//}
 
 void Genotype::SetArrPointer(int * ptr) 
 {
@@ -53,6 +96,3 @@ void Genotype::SetSize(int size)
 	arrSize = size;
 }
 
-int Genotype::getArrSize() const {
-	return arrSize;
-}

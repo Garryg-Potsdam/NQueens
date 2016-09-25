@@ -8,6 +8,7 @@ class Genotype
 {
 public:
 	Genotype();
+
 	Genotype(int size);
 
 	int getArrSize() const;
@@ -18,16 +19,28 @@ public:
 
 	void MutateGenotype(int one, int two);
 
+	float GetFitness();
+
+	bool WasSelectedForMatingPool();
+
+	void SetSelectedForMatingPool();
+
+	//virtual bool operator<=()
+
 protected:
+	void GenerateGenotype(int s);
+
+	void CalculateFitness();
 	
-	int * GetArrPointer();
+	//int * GetArrPointer();
 
 	void SetArrPointer(int * ptr);
 
 	void SetSize(int size);
 
 private:
-	int * gl;
+	GenotypeLocs gl;
 	int arrSize;
-	double fitness;
+	float fitness;
+	bool mFlag
 };
