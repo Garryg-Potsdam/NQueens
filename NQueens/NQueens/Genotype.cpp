@@ -108,6 +108,13 @@ bool Genotype::operator!=(const Genotype & rtOp) const
 		throw NoComparisonForObjectException();
 }
 
+std::string Genotype::ToString()
+{
+	std::string ans;
+
+	return ans;
+}
+
 
 /////////////////////////////////////////////////////////////////////////////
 //                           Protected Methods                             //
@@ -128,19 +135,23 @@ void Genotype::GenerateGenotype(int s)
 
 void Genotype::CalculateFitness()
 {
-	int collisions = 0;
+	float collisions = 0.0f;
 
 	collisions += GetRowCollisions();
 
-	//collisions += GetDiaCollisionsBack();
+	collisions += GetDiaCollisions();
 
-	collisions += GetDiaCollisions(1);
-	collisions += GetDiaCollisions(1);
+	// We double counted...
+
+	collisions = collisions / 2;
+
+
+
 }
 
-int Genotype::GetRowCollisions()
+float Genotype::GetRowCollisions()
 {
-	int tot = 0;
+	float tot = 0;
 
 	for (int i = 0; i < arrSize; i++)
 	{
@@ -159,9 +170,9 @@ int Genotype::GetRowCollisions()
 	return tot;
 }
 
-int Genotype::GetDiaCollisions()
+float Genotype::GetDiaCollisions()
 {
-	int tot = 0;
+	float tot = 0;
 
 	// i is the x coord to check against
 	for (int i = 0; i < arrSize; i++)
@@ -184,6 +195,8 @@ int Genotype::GetDiaCollisions()
 			}
 		}
 	}
+
+	return tot;
 }
 
 void Genotype::SetArrPointer(int * ptr) 

@@ -1,4 +1,5 @@
 #include "ExceptionClass.h"
+#include <string>
 
 const int DEFAULT_SIZE = 8;
 
@@ -37,14 +38,16 @@ public:
 
 	virtual bool operator!=(const Genotype & rtOp) const;
 
+	std::string ToString();
+
 protected:
 	void GenerateGenotype(int s);
 
 	void CalculateFitness();
 	
-	int GetRowCollisions();
+	float GetRowCollisions();
 
-	int GetDiaCollisions();
+	float GetDiaCollisions();
 
 	//int GetDiaCollisions(int m);
 
