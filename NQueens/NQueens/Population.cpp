@@ -12,7 +12,7 @@ void Population::buildPopulation() {
 	}
 }
 
-Genotype Population::Crossover(const Genotype rentOne, const Genotype rentTwo, int split) const
+Genotype Population::Crossover(Genotype rentOne, Genotype rentTwo, int split)
 {
 	Genotype child = Genotype(rentOne.getArrSize());
 
@@ -22,4 +22,3 @@ Genotype Population::Crossover(const Genotype rentOne, const Genotype rentTwo, i
 	}
 
 }
-

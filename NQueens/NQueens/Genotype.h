@@ -2,7 +2,7 @@
 
 const int DEFAULT_SIZE = 8;
 
-typedef int * GenotypeLocs;
+typedef int *GenotypeLocs;
 
 class Genotype
 {
@@ -12,7 +12,7 @@ public:
 
 	Genotype Mutate(const Genotype old, int one, int two) const;
 
-	int getArrSize() const;
+	int getArrSize();
 
 protected:
 	GenotypeLocs GetArrPointer();
