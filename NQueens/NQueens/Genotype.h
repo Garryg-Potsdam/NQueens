@@ -10,7 +10,7 @@ public:
 	Genotype();
 	Genotype(int size);
 
-	void Crossover(const Genotype rentOne, const Genotype rentTwo, Genotype & childOne, Genotype & childTwo);
+	Genotype Crossover(const Genotype rentOne, const Genotype rentTwo, int split);
 
 	Genotype Mutate(const Genotype old) const;
 

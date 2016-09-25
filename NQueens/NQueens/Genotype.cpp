@@ -19,8 +19,15 @@ Genotype::Genotype(const int s)
 
 }
 
-void Genotype::Crossover(const Genotype rentOne, const Genotype rentTwo, Genotype & childOne, Genotype & childTwo)
+Genotype Genotype::Crossover(const Genotype rentOne, const Genotype rentTwo, int split)
 {
+	Genotype child = Genotype(rentOne.arrSize);
+
+	for (int i = 0; i < split; i++)
+	{
+		child.gl[i] = rentOne.gl[i];
+	}
+
 
 }
 
