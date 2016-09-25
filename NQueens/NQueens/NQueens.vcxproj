@@ -146,6 +146,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="GameBoard.cpp" />
+    <ClCompile Include="NQueensClient.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="GameBoard.h" />
+    <ClInclude Include="LocRec.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
