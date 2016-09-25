@@ -40,6 +40,11 @@ Genotype Genotype::Mutate(const Genotype old, int one, int two) const
 	old.gl[two] = temp;
 }
 
+int * Genotype::GetArrPointer()
+{
+	return gl;
+}
+
 void Genotype::SetSize(int size)
 {
 	arrSize = size;

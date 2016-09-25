@@ -15,6 +15,8 @@ public:
 	Genotype Mutate(const Genotype old, int one, int two) const;
 
 protected:
+	GenotypeLocs GetArrPointer();
+	
 	void SetSize(int size);
 
 private:
