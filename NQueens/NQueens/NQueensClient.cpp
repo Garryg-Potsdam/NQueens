@@ -1,4 +1,5 @@
 #include <iostream>;
+#include "Population.h";
 using namespace std;
 
 int main() {
@@ -6,7 +7,7 @@ int main() {
 	int N = 8;
 	int generations = 1000;
 
-	Population = Population(10 * N);
+	Population pop = Population(N);
 
 	while (generations > 0) {
 		
