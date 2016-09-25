@@ -1,6 +1,6 @@
 #include "Genotype.h"
 
-class Population {
+class Population : Genotype {
 
 public:
 	Population(int n);

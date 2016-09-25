@@ -16,7 +16,7 @@ public:
 
 protected:
 	GenotypeLocs GetArrPointer();
-	
+	int getArrSize();
 	void SetSize(int size);
 
 private:

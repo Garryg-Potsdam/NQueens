@@ -49,3 +49,7 @@ void Genotype::SetSize(int size)
 {
 	arrSize = size;
 }
+
+int Genotype::getArrSize() {
+	return arrSize;
+}
