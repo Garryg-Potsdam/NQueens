@@ -76,11 +76,14 @@ int main() {
 // Returns: a population of parents to mate
 Population buildParents(Population mainPop, int parentSize, int popSize) {
 	Population parents(parentSize, false);
+
 	for (int i = 0; i < parentSize; i++) {
 		// randomly get three potential maters
 		Genotype materOne = mainPop.getGenotype(mainPop.getRandom(popSize));
 		Genotype materTwo = mainPop.getGenotype(mainPop.getRandom(popSize));
 		Genotype materThree = mainPop.getGenotype(mainPop.getRandom(popSize));
+
+		// compare all their fitness values and add as approriate
 		if (materOne.GetFitness() >= materTwo.GetFitness()) {
 			if (materOne.GetFitness() >= materThree.GetFitness())
 				parents.addChild(materOne);
@@ -94,6 +97,7 @@ Population buildParents(Population mainPop, int parentSize, int popSize) {
 				parents.addChild(materThree);
 		}
 	}
+
 	return parents;
 }
 
@@ -102,6 +106,7 @@ Population buildParents(Population mainPop, int parentSize, int popSize) {
 // Returns: a batch of fresh children
 Population makeBabies(Population parents, int parentSize) {
 	Population children(parentSize, false);
+	// mate the parents and add children to the children population
 	for (int i = 0; i < parentSize; i += 2) {
 		children.addChild(parents.Crossover(parents.getGenotype(i), parents.getGenotype(i + 1), parents.getRandom(parentSize)));
 		children.addChild(parents.Crossover(parents.getGenotype(i + 1), parents.getGenotype(i), parents.getRandom(parentSize)));
