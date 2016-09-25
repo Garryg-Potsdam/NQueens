@@ -12,6 +12,10 @@ public:
 
 	int getArrSize() const;
 
+	GenotypeLocs GetGenotypeLocs();
+
+	void SetGenotypeLocs(GenotypeLocs locs);
+
 protected:
 	
 	int * GetArrPointer();
