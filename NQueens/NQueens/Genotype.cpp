@@ -157,8 +157,7 @@ void Genotype::CalculateFitness()
 
 	collisions = collisions / 2;
 
-
-
+	fitness = 1 / (collisions + EPSILON);
 }
 
 float Genotype::GetRowCollisions()

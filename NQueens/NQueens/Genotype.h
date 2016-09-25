@@ -3,6 +3,8 @@
 
 const int DEFAULT_SIZE = 8;
 
+const float EPSILON = 0.0001f;
+
 typedef int * GenotypeLocs;
 
 class Genotype
