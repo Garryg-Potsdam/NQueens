@@ -16,6 +16,8 @@ public:
 
 	void SetGenotypeLocs(GenotypeLocs locs);
 
+	void MutateGenotype(int one, int two);
+
 protected:
 	
 	int * GetArrPointer();
@@ -27,5 +29,5 @@ protected:
 private:
 	int * gl;
 	int arrSize;
-
+	double fitness;
 };

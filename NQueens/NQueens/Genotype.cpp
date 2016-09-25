@@ -29,6 +29,15 @@ void Genotype::SetGenotypeLocs(GenotypeLocs locs)
 	gl = locs;
 }
 
+void Genotype::MutateGenotype(int one, int two)
+{
+	int temp = gl[one];
+
+	gl[one] = gl[two];
+
+	gl[two] = temp;
+}
+
 int * Genotype::GetArrPointer() 
 {
 	return gl;
