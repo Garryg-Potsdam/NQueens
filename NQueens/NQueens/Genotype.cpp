@@ -17,17 +17,7 @@ Genotype::Genotype(const int s)
 
 	SetSize(s);
 
-}
-
-Genotype Genotype::Crossover(const Genotype rentOne, const Genotype rentTwo, int split)
-{
-	Genotype child = Genotype(rentOne.arrSize);
-
-	for (int i = 0; i < split; i++)
-	{
-		child.gl[i] = rentOne.gl[i];
-	}
-
+	gl = nGl;
 
 }
 
@@ -39,4 +29,8 @@ Genotype Genotype::Mutate(const Genotype old) const
 void Genotype::SetSize(int size)
 {
 	arrSize = size;
+}
+
+int Genotype::getArrSize() {
+	return arrSize;
 }
