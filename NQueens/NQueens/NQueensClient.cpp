@@ -1,10 +1,6 @@
-#include <iostream>
-#include <ctime>
 #include "Population.h"
 
 using namespace std;
-
-int getRandom(int n);
 
 bool foundSolution(Population pop, int N);
 
@@ -29,9 +25,4 @@ bool foundSolution(Population pop, int N) {
 			return true;
 		}
 	}
-}
-
-int getRandom(int n) {
-	srand(time(NULL));
-	return rand() % n + 1;
 }
