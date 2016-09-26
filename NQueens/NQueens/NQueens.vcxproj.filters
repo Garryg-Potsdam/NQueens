@@ -18,30 +18,21 @@
     <ClCompile Include="NQueensClient.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GameBoard.cpp">
+    <ClCompile Include="GenotypeClass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Population.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Genotype.cpp">
+    <ClCompile Include="PopulationClass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GameBoard.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="LocRec.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Genotype.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Population.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ExceptionClass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GenotypeClass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PopulationClass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
