@@ -12,9 +12,7 @@
 #include "Genotype.h"
 
 
-// This is a population class
-// This class is used to build a population
-// of genotypes for solving NQueens
+
 class Population : public Genotype {
 
 public:
@@ -48,8 +46,7 @@ public:
 	Genotype Crossover(Genotype & rentOne, Genotype & rentTwo, int split);
 	
 private:
-	// Post-Condition: fills population with random genotypes and mutates
-	//                 10% of them
+
 	void buildPopulation();
 	int populationSize;
 	int N;
