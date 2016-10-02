@@ -14,7 +14,7 @@
 
 #include "ExceptionClass.h"
 #include <string>
-#include <iostream>s
+#include <iostream>
 
 const int DEFAULT_SIZE = 8;
 
@@ -30,6 +30,8 @@ public:
 	GenotypeClass(int size);
 
 	int getArrSize() const;
+
+	void SetArrSize(int size);
 
 	GenotypeLocs GetGenotypeLocs();
 

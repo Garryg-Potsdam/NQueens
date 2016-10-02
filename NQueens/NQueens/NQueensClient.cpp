@@ -28,22 +28,24 @@ PopulationClass buildParents(PopulationClass mainPop, int parentSize, int popSiz
 // Returns: a batch of fresh children
 PopulationClass makeBabies(PopulationClass parents, int parentSize);
 
+// Parameters: mainPop - the main population in the evolution
+//                   N - 1/10 the size of the population
+// Retuns: a solution for NQueens if one was found
+GenotypeClass getSolutionGenotype(PopulationClass mainPop, int N);
+
 // Parameters:  pop - the population to check for a solution in
 //                N - 1/10 of the population size
 // Returns:    bool - true if there is a solution false otherwise
 bool foundSolution(PopulationClass pop, int N);
 
-GenotypeClass solution;
-
 int main() {
-	//GenotypeClass solution;
-	
+
 	// Seed rand in main to maintain pseudo-randomness 
 	// and not reseed with every call to receive a new random number
 	srand(time(NULL));
 	
 	// Board size
-	int N = 8;
+	int N = 4;
 	// Population size
 	int popSize = N * 10;
 	// The amount of parents
@@ -52,20 +54,16 @@ int main() {
 	if (N % 2 == 1)
 		parentSize++;
 
-
 	// Total allowed generations
 	int generations = 1000;	
 	// Population of randomly generated genotypes
 	PopulationClass mainPop = PopulationClass(N, true);
 	// if a solution is found its stored in this
-	GenotypeClass gSolution;
 
 	// Main evolution loop
 	while (generations > 0) {
 		// if we find a solution we grab it and stop evolving
-		if (foundSolution(mainPop, N)) {
-			// Missing Integer in method function call. see line 19
-			solution;
+		if (foundSolution(mainPop, N)) {	
 			break;
 		}
 		// Population of this gens parents
@@ -77,10 +75,7 @@ int main() {
 		// decrement generations left
 		generations--;
 	}
-	
-	cout << solution.ToString() << endl;
-
-	system("pause");
+	std::cout << getSolutionGenotype(mainPop, N).ToString() << std::endl;
 }
 
 
@@ -89,6 +84,7 @@ int main() {
 //                popSize - the size of the actual population
 // Returns: a population of parents to mate
 PopulationClass buildParents(PopulationClass mainPop, int parentSize, int popSize) {
+	std::cout << "buildParents" << std::endl;
 	PopulationClass parents(parentSize, false);
 	for (int i = 0; i < parentSize; i++) {
 		// randomly get three potential maters
@@ -115,6 +111,7 @@ PopulationClass buildParents(PopulationClass mainPop, int parentSize, int popSiz
 //             parentSize - the amount of parents in the parent population
 // Returns: a batch of fresh children
 PopulationClass makeBabies(PopulationClass parents, int parentSize) {
+	std::cout << "makeBabies" << std::endl;
 	PopulationClass children(parentSize, false);
 	for (int i = 0; i < parentSize; i += 2) {
 		children.addChild(parents.Crossover(parents.getGenotype(i), parents.getGenotype(i + 1), parents.getRandom(parentSize)));
@@ -124,13 +121,26 @@ PopulationClass makeBabies(PopulationClass parents, int parentSize) {
 }
 
 
+// Parameters: mainPop - the main population in the evolution
+//                   N - 1/10 the size of the population
+// Retuns: a solution for NQueens if one was found
+GenotypeClass getSolutionGenotype(PopulationClass pop, int N) {
+	std::cout << "getSolutionGenotype" << std::endl;
+	for (int i = 0; i < N * 10; i++) {
+		if (pop.getGenotype(i).GetFitness() == 10000) {
+			return pop.getGenotype(i);
+		}
+	}
+}
+
 // Parameters:  pop - the population to check for a solution in
 //                N - 1/10 of the population size
 // Returns:    bool - true if there is a solution false otherwise
 bool foundSolution(PopulationClass pop, int N) {
+	std::cout << "foundSolution" << std::endl;
 	for (int i = 0; i < N * 10; i++) {
 		if (pop.getGenotype(i).GetFitness() == 10000) {
-			solution = pop.getGenotype(i);
+			std::cout << "Found a solution at: " << i << std::endl;
 			return true;
 		}
 	}

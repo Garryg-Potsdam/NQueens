@@ -26,12 +26,21 @@ GenotypeClass::GenotypeClass()
 
 GenotypeClass::GenotypeClass(const int s)
 {
+	std::cout << "Gene Size: " << s << std::endl;
+	system("pause");
 	GenerateGenotype(s);
 }
 
 int GenotypeClass::getArrSize() const 
 {
 	return arrSize;
+}
+
+void GenotypeClass::SetArrSize(int size)
+{
+	gl = new int [size];
+
+	arrSize = size;
 }
 
 GenotypeLocs GenotypeClass::GetGenotypeLocs()
@@ -124,17 +133,17 @@ std::string GenotypeClass::ToString()
 	{
 		ans += gl[i];// +" ";
 	}
-
+	std::cout << ans << std::endl;
 	ans += "\n" +  PrintTopAndBottom();
 
 	for (int i = arrSize - 1; i >= 0; i--)
 	{
 		ans += "\n|";
-
+		std::cout << i << std::endl;
 		// Print board spaces
 		for (int j = 0; j < arrSize; j++)
 		{
-			if (gl[j] == i)
+			if (gl[i] == j)
 				ans += "Q";
 			else
 				ans += " ";
@@ -181,7 +190,6 @@ void GenotypeClass::GenerateGenotype(int s)
 	}
 
 	gl = nGl;
-
 	SetSize(s);
 
 	CalculateFitness();
