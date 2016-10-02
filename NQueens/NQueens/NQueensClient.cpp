@@ -66,7 +66,7 @@ int main() {
 		// if we find a solution we grab it and stop evolving
 		if (foundSolution(mainPop, N)) {
 			// Missing Integer in method function call. see line 19
-			gSolution = getSolutionGenotype(mainPop);
+			gSolution = getSolutionGenotype(mainPop, N);
 			break;
 		}
 		// Population of this gens parents
@@ -120,18 +120,15 @@ PopulationClass makeBabies(PopulationClass parents, int parentSize) {
 	}
 }
 
+GenotypeClass solution;
+
 // Parameters: mainPop - the main population in the evolution
 //                   N - 1/10 the size of the population
 // Retuns: a solution for NQueens if one was found
 GenotypeClass getSolutionGenotype(PopulationClass pop, int N) {
-	GenotypeClass temp;
-	for (int i = 0; i < N * 10; i++) {
-		if (pop.getGenotype(i).GetFitness() == 10000) {
-			temp = pop.getGenotype(i);
-		}
-	}
-	return temp;
+	return solution;
 }
+
 
 // Parameters:  pop - the population to check for a solution in
 //                N - 1/10 of the population size
@@ -139,6 +136,7 @@ GenotypeClass getSolutionGenotype(PopulationClass pop, int N) {
 bool foundSolution(PopulationClass pop, int N) {
 	for (int i = 0; i < N * 10; i++) {
 		if (pop.getGenotype(i).GetFitness() == 10000) {
+			solution = pop.getGenotype(i);
 			return true;
 		}
 	}

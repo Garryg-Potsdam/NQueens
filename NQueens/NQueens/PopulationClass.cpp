@@ -15,7 +15,21 @@
 
 #include "PopulationClass.h"
 
-PopulationClass::PopulationClass(int n, bool build) {
+/*
+Author:		Garry Griggs & Gregory Hughes
+Date:		9/25/2016
+Project:	NQueens
+FileName:	Population.cpp
+Purpose:	Population Class methods
+*/
+
+#include "Population.h"
+
+// Parameters:     n - 1/10 the population size
+//             build - boolean value true = make random population
+//                     false = make no population
+// Post-Condition: initializes a population object of genotypes
+Population::Population(int n, bool build) {
 	N = n;
 	size = 0;
 	populationSize = n * 10;
@@ -23,56 +37,74 @@ PopulationClass::PopulationClass(int n, bool build) {
 		buildPopulation();
 }
 
-void PopulationClass::buildPopulation() {
+// Post-Condition: fills population with random genotypes and mutates
+//                 10% of them
+void Population::buildPopulation() {
 	gts = new GenotypeClass[populationSize];
 	for (int i = 0; i < populationSize; i++) {
 		gts[i] = GenotypeClass(N);
-		if (getRandom(N) > (N/10))
+		if (getRandom(N) >(N / 10))
 			gts[i].MutateGenotype(getRandom(N), getRandom(N));
 		size++;
 	}
 }
 
-int PopulationClass::getRandom(int n) {
+// Parameters: n - the range to return a random in
+// Returns: a number in range [0, n]
+int Population::getRandom(int n) {
+	srand(time(NULL));
 	return rand() % n;
 }
 
-GenotypeClass PopulationClass::getGenotype(int i) {
+// Returns: a genotype at a specified location
+GenotypeClass Population::getGenotype(int i) {
 	return gts[i];
 }
 
-void PopulationClass::addChildren(PopulationClass p, int totalChildren) {
+// Parameters:      children - the population to add children from
+//             totalChildren - the total children you want added
+// Post-Condition: adds all the desired children from one population to another
+void Population::addChildren(Population children, int totalChildren) {
 	for (int i = 0; i < totalChildren; i++) {
-		gts[N - 1 - i] = p.getGenotype(i);
+		gts[N - 1 - i] = children.getGenotype(i);
 	}
 }
 
-void PopulationClass::addChild(GenotypeClass gt) {
+// Parameters: gt - the genotype of a child you want to add to a population
+// Post-Condition: adds child gt to population if there is room
+void Population::addChild(GenotypeClass gt) {
 	if (size < N - 1) {
 		gts[size] = gt;
 		size++;
 	}
 }
 
-GenotypeClass PopulationClass::Crossover(GenotypeClass & rentOne, GenotypeClass & rentTwo, int split) {
-	GenotypeLocs one = rentOne.GetGenotypeLocs();
+// Parameters: parentOne - the first parent to take a chunk of genotype from
+//             parentTwo - the second paretn to take a chunk of genotype from
+// Post-Condition: takes a chunk from each parent and builds a new child then 
+//                 mutates 10% of the time
+// Returns:        child - the child of the two spliced parents
+GenotypeClass Population::Crossover(GenotypeClass & parentOne, GenotypeClass & parentTwo, int split) {
+	// Parents to splice
+	GenotypeLocs one = parentOne.GetGenotypeLocs();
+	GenotypeLocs two = parentTwo.GetGenotypeLocs();
+	// the child
+	GenotypeLocs feedus = new int[parentOne.getArrSize()];
 
-	GenotypeLocs two = rentTwo.GetGenotypeLocs();
-
-	GenotypeLocs feedus = new int[rentOne.getArrSize()];
-
+	// add values from parent one
 	for (int i = 0; i < split; i++)
 		feedus[i] = one[i];
-	
-	for (int i = split; i < rentOne.getArrSize; i++)
+	// add values from parent two
+	for (int i = split; i < parentOne.getArrSize; i++)
 		feedus[i] = two[i];
 
-	GenotypeClass child = GenotypeClass(rentOne.getArrSize());
-	if (getRandom(N) > (N / 10))
+	// the new child
+	GenotypeClass child = GenotypeClass(parentOne.getArrSize());
+	// mutate if conditions met
+	if (getRandom(N) >(N / 10))
 		child.MutateGenotype(getRandom(N), getRandom(N));
 
 	child.SetGenotypeLocs(feedus);
-
+	// return the new child
 	return child;
 }
-
