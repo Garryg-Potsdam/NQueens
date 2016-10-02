@@ -13,7 +13,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include <ctime>
-#include "PopulationClass.h"
+#include "Population.h"
 
 using namespace std;
 
@@ -21,22 +21,22 @@ using namespace std;
 //             parentSize - the amount of parents in the parent population
 //                popSize - the size of the actual population
 // Returns: a population of parents to mate
-PopulationClass buildParents(PopulationClass mainPop, int parentSize, int popSize);
+Population buildParents(Population mainPop, int parentSize, int popSize);
 
 // Parameters:    parents - the genotypes to be mated
 //             parentSize - the amount of parents in the parent population
 // Returns: a batch of fresh children
-PopulationClass makeBabies(PopulationClass parents, int parentSize);
+Population makeBabies(Population parents, int parentSize);
 
 // Parameters: mainPop - the main population in the evolution
 //                   N - 1/10 the size of the population
 // Retuns: a solution for NQueens if one was found
-GenotypeClass getSolutionGenotype(PopulationClass mainPop, int N);
+Genotype getSolutionGenotype(Population mainPop, int N);
 
 // Parameters:  pop - the population to check for a solution in
 //                N - 1/10 of the population size
 // Returns:    bool - true if there is a solution false otherwise
-bool foundSolution(PopulationClass pop, int N);
+bool foundSolution(Population pop, int N);
 
 int main() {
 
@@ -55,24 +55,25 @@ int main() {
 		parentSize++;
 
 	// Total allowed generations
-	int generations = 1000;	
+	int generations = 1;	
 	// Population of randomly generated genotypes
-	PopulationClass mainPop = PopulationClass(N, true);
+	Population mainPop = Population(N, N * 10, true);
 	// if a solution is found its stored in this
 
 	// Main evolution loop
-	while (generations > 0) {
+	while (generations < 1001) {
+		cout << "Current Generation: " << generations << endl;
 		// if we find a solution we grab it and stop evolving
 		if (foundSolution(mainPop, N))
 			break;
 		// Population of this gens parents
-		PopulationClass parents  = buildParents(mainPop, parentSize, popSize);
+		Population parents  = buildParents(mainPop, parentSize, popSize);
 		// Population of this gens children
-		PopulationClass children = makeBabies(parents, parentSize);
+		Population children = makeBabies(parents, parentSize);
 		// Add the best children elimnate the worst from previous gen
-		mainPop.addChildren(children, parentSize / 2);
+		mainPop.addGenes(children, parentSize / 2);
 		// decrement generations left
-		generations--;
+		generations++;
 	}
 	if (foundSolution(mainPop, N))
 		cout << getSolutionGenotype(mainPop, N).ToString() << endl;
@@ -83,24 +84,24 @@ int main() {
 //             parentSize - the amount of parents in the parent population
 //                popSize - the size of the actual population
 // Returns: a population of parents to mate
-PopulationClass buildParents(PopulationClass mainPop, int parentSize, int popSize) {
-	PopulationClass parents(parentSize, false);
+Population buildParents(Population mainPop, int parentSize, int popSize) {
+	Population parents(parentSize, parentSize, false);
 	for (int i = 0; i < parentSize; i++) {
 		// randomly get three potential maters
-		GenotypeClass materOne = mainPop.getGenotype(mainPop.getRandom(popSize));
-		GenotypeClass materTwo = mainPop.getGenotype(mainPop.getRandom(popSize));
-		GenotypeClass materThree = mainPop.getGenotype(mainPop.getRandom(popSize));
+		Genotype materOne = mainPop.getGenotype(mainPop.getRandom(popSize));
+		Genotype materTwo = mainPop.getGenotype(mainPop.getRandom(popSize));
+		Genotype materThree = mainPop.getGenotype(mainPop.getRandom(popSize));
 		if (materOne.GetFitness() >= materTwo.GetFitness()) {
 			if (materOne.GetFitness() >= materThree.GetFitness())
-				parents.addChild(materOne);
+				parents.addGene(materOne);
 			else
-				parents.addChild(materThree);
+				parents.addGene(materThree);
 		}
 		else { // two is bigger than one
 			if (materTwo.GetFitness() > materThree.GetFitness())
-				parents.addChild(materTwo);
+				parents.addGene(materTwo);
 			else
-				parents.addChild(materThree);
+				parents.addGene(materThree);
 		}
 	}
 	return parents;
@@ -109,11 +110,11 @@ PopulationClass buildParents(PopulationClass mainPop, int parentSize, int popSiz
 // Parameters:    parents - the genotypes to be mated
 //             parentSize - the amount of parents in the parent population
 // Returns: a batch of fresh children
-PopulationClass makeBabies(PopulationClass parents, int parentSize) {
-	PopulationClass children(parentSize, false);
+Population makeBabies(Population parents, int parentSize) {
+	Population children(parentSize, parentSize, false);
 	for (int i = 0; i < parentSize; i += 2) {
-		children.addChild(parents.Crossover(parents.getGenotype(i), parents.getGenotype(i + 1), parents.getRandom(parentSize)));
-		children.addChild(parents.Crossover(parents.getGenotype(i + 1), parents.getGenotype(i), parents.getRandom(parentSize)));
+		children.addGene(parents.Crossover(parents.getGenotype(i), parents.getGenotype(i + 1), parents.getRandom(parentSize)));
+		children.addGene(parents.Crossover(parents.getGenotype(i + 1), parents.getGenotype(i), parents.getRandom(parentSize)));
 	}
 	return children;
 }
@@ -122,22 +123,21 @@ PopulationClass makeBabies(PopulationClass parents, int parentSize) {
 // Parameters: mainPop - the main population in the evolution
 //                   N - 1/10 the size of the population
 // Retuns: a solution for NQueens if one was found
-GenotypeClass getSolutionGenotype(PopulationClass pop, int N) {
-	for (int i = 0; i < N * 10; i++) {
-		if (pop.getGenotype(i).GetFitness() == 10000) {
+Genotype getSolutionGenotype(Population pop, int N) {
+	pop.sort();
+	for (int i = N * 10 - 1; i > 0; i--)
+		if (pop.getGenotype(i).GetFitness() == 10000)
 			return pop.getGenotype(i);
-		}
-	}
 }
 
 // Parameters:  pop - the population to check for a solution in
 //                N - 1/10 of the population size
 // Returns:    bool - true if there is a solution false otherwise
-bool foundSolution(PopulationClass pop, int N) {
-	for (int i = 0; i < N * 10; i++) {
-		if (pop.getGenotype(i).GetFitness() == 10000) {
-			//cout << "Found a solution at: " << i << endl;
+bool foundSolution(Population pop, int N) {
+	pop.sort();
+	for (int i = N * 10 - 1; i > 0; i--)
+		if (pop.getGenotype(i).GetFitness() == 10000) 
 			return true;
-		}
-	}
+	pop.shuffle();	
+	return false;
 }

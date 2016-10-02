@@ -13,7 +13,7 @@
 //                                                                           //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "PopulationClass.h"
+#include "Population.h"
 #include <fstream>
 
 /*
@@ -28,66 +28,58 @@ Purpose:	Population Class methods
 //             build - boolean value true = make random population
 //                     false = make no population
 // Post-Condition: initializes a population object of genotypes
-PopulationClass::PopulationClass(int n, bool build) {
+Population::Population(int n, int popSize, bool build) {
 	N = n;
 	size = 0;
-	populationSize = n * 10;
-	gts = new GenotypeClass[populationSize];
+	populationSize = popSize;
+	gts = new Genotype[popSize];	
 	if (build)
 		buildPopulation();
 }
 
 // Post-Condition: fills population with random genotypes and mutates
 //                 10% of them
-void PopulationClass::buildPopulation() {	
+void Population::buildPopulation() {
+	
 	for (int i = 0; i < populationSize; i++) {
-		gts[i].SetArrSize(size);
-		gts[i] = GenotypeClass(N);
+		gts[i].SetArrSize(N);
+		gts[i] = Genotype(N);
 		if (getRandom(N) > (N / 10))
 			gts[i].MutateGenotype(getRandom(N), getRandom(N));
 		size++;
 	}
-	/*
-	for (int i = 0; i < populationSize; i++) {
-		std::cout << "Fitness " << i << ": " << gts[i].GetFitness() << std::endl;
-	}
-	mergesort(gts, 0, populationSize - 1);
-	std::cout << std::endl << std::endl;
-	for (int i = 0; i < populationSize; i++) {
-		std::cout << "Fitness " << i << ": " << gts[i].GetFitness() << std::endl;
-	}
-	*/
 }
 
 // Parameters: n - the range to return a random in
 // Returns: a number in range [0, n]
-int PopulationClass::getRandom(int n) {
+int Population::getRandom(int n) {
 	return rand() % n;
 }
 
 // Returns: a genotype at a specified location
-GenotypeClass PopulationClass::getGenotype(int i) {
+Genotype Population::getGenotype(int i) {
 	return gts[i];
 }
 
 // Parameters:      children - the population to add children from
 //             totalChildren - the total children you want added
 // Post-Condition: adds all the desired children from one population to another
-void PopulationClass::addChildren(PopulationClass children, int totalChildren) {
-	mergesort(gts, 0, populationSize - 1);
-	mergesort(children.gts, 0, populationSize - 1);
-	for (int i = 0; i < totalChildren; i++)
-		gts[i] = children.getGenotype(i);
-
+void Population::addGenes(Population newGenes, int totalGenes) {
+	sort();
+	newGenes.sort();
+	for (int i = 0; i < totalGenes; i++) {
+		gts[i].SetArrSize(N);
+		gts[i] = newGenes.getGenotype(i);
+	}
+	shuffle();
 }
-
 
 
 // Parameters: gt - the genotype of a child you want to add to a population
 // Post-Condition: adds child gt to population if there is room
-void PopulationClass::addChild(GenotypeClass gt) {
-	std::cout << "addChild" << std::endl;
+void Population::addGene(Genotype gt) {
 	if (size < N - 1) {
+		gts[size].SetArrSize(N);
 		gts[size] = gt;
 		size++;
 	}
@@ -98,7 +90,7 @@ void PopulationClass::addChild(GenotypeClass gt) {
 // Post-Condition: takes a chunk from each parent and builds a new child then 
 //                 mutates 10% of the time
 // Returns:        child - the child of the two spliced parents
-GenotypeClass PopulationClass::Crossover(GenotypeClass & parentOne, GenotypeClass & parentTwo, int split) {
+Genotype Population::Crossover(Genotype & parentOne, Genotype & parentTwo, int split) {
 	// Parents to splice
 	GenotypeLocs one;
 	parentOne.GetGenotypeLocs(one);
@@ -116,7 +108,7 @@ GenotypeClass PopulationClass::Crossover(GenotypeClass & parentOne, GenotypeClas
 		feedus[i] = two[i];
 
 	// the new child
-	GenotypeClass child = GenotypeClass(parentOne.getArrSize());
+	Genotype child = Genotype(parentOne.getArrSize());
 	// mutate if conditions met
 	if (getRandom(N) >(N / 10))
 		child.MutateGenotype(getRandom(N), getRandom(N));
@@ -127,7 +119,25 @@ GenotypeClass PopulationClass::Crossover(GenotypeClass & parentOne, GenotypeClas
 }
 
 
-void PopulationClass::mergesort(GenotypeClass *genes, int low, int high) {
+int Population::getSize() {
+	return size;
+}
+
+void Population::sort() {
+	mergesort(gts, 0, populationSize - 1);
+}
+
+void Population::shuffle() {
+	for (int i = 0; i < N * 10; i++) {
+		int randOne = getRandom(N * 10);
+		int randTwo = getRandom(N * 10);
+		Genotype temp = gts[randOne];
+		gts[randOne] = gts[randTwo];
+		gts[randTwo] = temp;
+	}
+}
+
+void Population::mergesort(Genotype *genes, int low, int high) {
 	int mid;
 	if (low < high) {
 		mid = (low + high) / 2;
@@ -137,9 +147,9 @@ void PopulationClass::mergesort(GenotypeClass *genes, int low, int high) {
 	}
 	return;
 }
-void PopulationClass::merge(GenotypeClass *genes, int low, int high, int mid) {
+void Population::merge(Genotype *genes, int low, int high, int mid) {
 	int i, j, k;
-	GenotypeClass allele[50];
+	Genotype allele[1000];
 	i = low;
 	k = low;
 	j = mid + 1;

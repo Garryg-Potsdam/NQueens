@@ -12,34 +12,34 @@
 //                                                                           //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "GenotypeClass.h"
+#include "Genotype.h"
 #include <iostream>
 
 ///////////////////////////////////////////////////////////////////////////////
 //                               Public Methods                              //
 ///////////////////////////////////////////////////////////////////////////////
 
-GenotypeClass::GenotypeClass()
+Genotype::Genotype()
 {
 	GenerateGenotype(DEFAULT_SIZE);
 }
 
-GenotypeClass::GenotypeClass(const int s)
+Genotype::Genotype(const int s)
 {
 	GenerateGenotype(s);
 }
 
-int GenotypeClass::getArrSize() const 
+int Genotype::getArrSize() const 
 {
 	return arrSize;
 }
 
-void GenotypeClass::SetArrSize(int size)
+void Genotype::SetArrSize(int size)
 {
 	arrSize = size;
 }
 
-void GenotypeClass::SetGenotypeLocs(GenotypeLocs & locs)
+void Genotype::SetGenotypeLocs(GenotypeLocs & locs)
 {
 	for (int i = 0; i < arrSize; i++)
 	{
@@ -47,7 +47,7 @@ void GenotypeClass::SetGenotypeLocs(GenotypeLocs & locs)
 	}
 }
 
-void GenotypeClass::GetGenotypeLocs(GenotypeLocs & locs)
+void Genotype::GetGenotypeLocs(GenotypeLocs & locs)
 {
 	for (int i = 0; i < arrSize; i++)
 	{
@@ -55,7 +55,7 @@ void GenotypeClass::GetGenotypeLocs(GenotypeLocs & locs)
 	}
 }
 
-void GenotypeClass::MutateGenotype(int one, int two)
+void Genotype::MutateGenotype(int one, int two)
 {
 	int temp = gl[one];
 
@@ -64,39 +64,35 @@ void GenotypeClass::MutateGenotype(int one, int two)
 	gl[two] = temp;
 }
 
-float GenotypeClass::GetFitness()
+float Genotype::GetFitness()
 {
 	return fitness;
 }
 
-bool GenotypeClass::WasSelectedForMatingPool()
+bool Genotype::WasSelectedForMatingPool()
 {
 	return mFlag;
 }
 
-void GenotypeClass::SetSelectedForMatingPool(bool set)
+void Genotype::SetSelectedForMatingPool(bool set)
 {
 	mFlag = set;
 }
 
-std::string GenotypeClass::ToString()
+std::string Genotype::ToString()
 {
 	std::string ans = "";
-
-	std::cout << std::endl;
-
+	
 	for (int i = 0; i < arrSize; i++)
 	{
 		ans += gl[i] +" ";
 	}
 
-	std::cout << ans << std::endl;
 	ans += "\n" +  PrintTopAndBottom();
 
 	for (int i = arrSize - 1; i >= 0; i--)
 	{
 		ans += "\n|";
-		std::cout << i << std::endl;
 		// Print board spaces
 		for (int j = 0; j < arrSize; j++)
 		{
@@ -134,7 +130,7 @@ std::string GenotypeClass::ToString()
 ///////////////////////////////////////////////////////////////////////////////
 
 
-void GenotypeClass::GenerateGenotype(int s)
+void Genotype::GenerateGenotype(int s)
 {
 	for (int i = 0; i < s; i++)
 	{
@@ -149,7 +145,7 @@ void GenotypeClass::GenerateGenotype(int s)
 	mFlag = false;
 }
 
-void GenotypeClass::CalculateFitness()
+void Genotype::CalculateFitness()
 {
 	float collisions = 0.0f;
 
@@ -166,7 +162,7 @@ void GenotypeClass::CalculateFitness()
 	fitness = 1 / (collisions + EPSILON);
 }
 
-float GenotypeClass::GetRowCollisions()
+float Genotype::GetRowCollisions()
 {
 	float tot = 0;
 
@@ -187,7 +183,7 @@ float GenotypeClass::GetRowCollisions()
 	return tot;
 }
 
-float GenotypeClass::GetDiaCollisions()
+float Genotype::GetDiaCollisions()
 {
 	float tot = 0;
 
@@ -217,7 +213,7 @@ float GenotypeClass::GetDiaCollisions()
 	return tot;
 }
 
-void GenotypeClass::SetSize(int size)
+void Genotype::SetSize(int size)
 {
 	arrSize = size;
 }
@@ -226,7 +222,7 @@ void GenotypeClass::SetSize(int size)
 //                              Private Methods                              //
 ///////////////////////////////////////////////////////////////////////////////
 
-std::string GenotypeClass::PrintTopAndBottom()
+std::string Genotype::PrintTopAndBottom()
 {
 	std::string ans;
 

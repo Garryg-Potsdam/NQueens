@@ -146,14 +146,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="GenotypeClass.cpp" />
+    <ClCompile Include="Genotype.cpp" />
     <ClCompile Include="NQueensClient.cpp" />
-    <ClCompile Include="PopulationClass.cpp" />
+    <ClCompile Include="Population.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ExceptionClass.h" />
-    <ClInclude Include="GenotypeClass.h" />
-    <ClInclude Include="PopulationClass.h" />
+    <ClInclude Include="Genotype.h" />
+    <ClInclude Include="Population.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -16,30 +16,30 @@
 // This is a population class
 // This class is used to build a population
 // of genotypes for solving NQueens
-#include "GenotypeClass.h"
+#include "Genotype.h"
 
-class PopulationClass
+class Population
 {
 public:
 	// Parameters:     n - 1/10 the population size
 	//             build - boolean value true = make random population
 	//                     false = make no population
 	// Post-Condition: initializes a population object of genotypes
-	PopulationClass(int n, bool build);
+	Population(int n, int popSize, bool build);
 
 	// Parameters: n - the range to return a random in
 	// Returns: a number in range [0, n]
-	GenotypeClass Crossover(GenotypeClass & rentOne, 
-							GenotypeClass & rentTwo, 
+	Genotype Crossover(Genotype & rentOne, 
+							Genotype & rentTwo, 
 							int split);
 
 	// Returns: a genotype at a specified location
-	GenotypeClass getGenotype(int i);
+	Genotype getGenotype(int i);
 	
 	// Parameters:      children - the population to add children from
 	//             totalChildren - the total children you want added
 	// Post-Condition: adds all the desired children from one population to another
-	void addChildren(PopulationClass p, int totalChildren);
+	void addGenes(Population p, int totalChildren);
 	
 	// Parameters: gt - the genotype of a child you want to add to a population
 	// Post-Condition: adds child gt to population if there is room
@@ -50,13 +50,14 @@ public:
 	// Post-Condition: takes a chunk from each parent and builds a new child then 
 	//                 mutates 10% of the time
 	// Returns:        child - the child of the two spliced parents	
-	void addChild(GenotypeClass gt);
-	
-
+	void addGene(Genotype gt);
+	void shuffle();
+	void sort();
+	int getSize();
 
 private:
-	void mergesort(GenotypeClass *a, int low, int high);
-	void merge(GenotypeClass *a, int low, int high, int mid);
+	void mergesort(Genotype *a, int low, int high);
+	void merge(Genotype *a, int low, int high, int mid);
 	// Post-Condition: fills population with random genotypes and mutates
 	//                 10% of them
 	void buildPopulation();
@@ -64,5 +65,5 @@ private:
 	int populationSize;
 	int N;
 	int size;
-	GenotypeClass *gts;
+	Genotype *gts;
 };

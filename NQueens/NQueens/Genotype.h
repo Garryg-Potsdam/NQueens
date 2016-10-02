@@ -23,12 +23,12 @@ const float EPSILON = 0.0001f;
 
 typedef int GenotypeLocs[MAX_ARRAY_SIZE];
 
-class GenotypeClass
+class Genotype
 {
 public:
-	GenotypeClass();
+	Genotype();
 
-	GenotypeClass(int size);
+	Genotype(int size);
 
 	int getArrSize() const;
 
