@@ -75,7 +75,7 @@ int main() {
 		// decrement generations left
 		generations--;
 	}
-	std::cout << getSolutionGenotype(mainPop, N).ToString() << std::endl;
+	cout << getSolutionGenotype(mainPop, N).ToString() << endl;
 }
 
 
@@ -84,7 +84,6 @@ int main() {
 //                popSize - the size of the actual population
 // Returns: a population of parents to mate
 PopulationClass buildParents(PopulationClass mainPop, int parentSize, int popSize) {
-	std::cout << "buildParents" << std::endl;
 	PopulationClass parents(parentSize, false);
 	for (int i = 0; i < parentSize; i++) {
 		// randomly get three potential maters
@@ -111,7 +110,6 @@ PopulationClass buildParents(PopulationClass mainPop, int parentSize, int popSiz
 //             parentSize - the amount of parents in the parent population
 // Returns: a batch of fresh children
 PopulationClass makeBabies(PopulationClass parents, int parentSize) {
-	std::cout << "makeBabies" << std::endl;
 	PopulationClass children(parentSize, false);
 	for (int i = 0; i < parentSize; i += 2) {
 		children.addChild(parents.Crossover(parents.getGenotype(i), parents.getGenotype(i + 1), parents.getRandom(parentSize)));
@@ -125,7 +123,6 @@ PopulationClass makeBabies(PopulationClass parents, int parentSize) {
 //                   N - 1/10 the size of the population
 // Retuns: a solution for NQueens if one was found
 GenotypeClass getSolutionGenotype(PopulationClass pop, int N) {
-	std::cout << "getSolutionGenotype" << std::endl;
 	for (int i = 0; i < N * 10; i++) {
 		if (pop.getGenotype(i).GetFitness() == 10000) {
 			return pop.getGenotype(i);
@@ -137,10 +134,9 @@ GenotypeClass getSolutionGenotype(PopulationClass pop, int N) {
 //                N - 1/10 of the population size
 // Returns:    bool - true if there is a solution false otherwise
 bool foundSolution(PopulationClass pop, int N) {
-	std::cout << "foundSolution" << std::endl;
 	for (int i = 0; i < N * 10; i++) {
 		if (pop.getGenotype(i).GetFitness() == 10000) {
-			std::cout << "Found a solution at: " << i << std::endl;
+			//cout << "Found a solution at: " << i << endl;
 			return true;
 		}
 	}

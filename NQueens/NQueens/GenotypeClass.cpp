@@ -26,8 +26,6 @@ GenotypeClass::GenotypeClass()
 
 GenotypeClass::GenotypeClass(const int s)
 {
-	std::cout << "Gene Size: " << s << std::endl;
-	system("pause");
 	GenerateGenotype(s);
 }
 
@@ -226,7 +224,7 @@ float GenotypeClass::GetRowCollisions()
 		{
 			if (j != i)
 			{
-				if (gl[j] = gl[i])
+				if (gl[j] == gl[i])
 					tot++;
 			}
 		}

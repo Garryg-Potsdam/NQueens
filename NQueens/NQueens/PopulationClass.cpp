@@ -32,17 +32,13 @@ PopulationClass::PopulationClass(int n, bool build) {
 	N = n;
 	size = 0;
 	populationSize = n * 10;
-	if (build) {
+	if (build)
 		buildPopulation();
-
-		PrintPopToFile();
-	}
 }
 
 // Post-Condition: fills population with random genotypes and mutates
 //                 10% of them
 void PopulationClass::buildPopulation() {
-	std::cout << "buildPopulation" << std::endl;
 
 	gts = new GenotypeClass[populationSize];
 	
@@ -51,7 +47,6 @@ void PopulationClass::buildPopulation() {
 		gts[i] = GenotypeClass(N);
 		if (getRandom(N) > (N / 10))
 			gts[i].MutateGenotype(getRandom(N), getRandom(N));
-		std::cout << gts[i].ToString() << std::endl;
 		size++;
 	}
 }
@@ -64,7 +59,6 @@ int PopulationClass::getRandom(int n) {
 
 // Returns: a genotype at a specified location
 GenotypeClass PopulationClass::getGenotype(int i) {
-	std::cout << "getGenotype" << std::endl;
 	return gts[i];
 }
 
@@ -72,7 +66,6 @@ GenotypeClass PopulationClass::getGenotype(int i) {
 //             totalChildren - the total children you want added
 // Post-Condition: adds all the desired children from one population to another
 void PopulationClass::addChildren(PopulationClass children, int totalChildren) {
-	std::cout << "addChildren" << std::endl;
 	for (int i = 0; i < totalChildren; i++) {
 		gts[N - 1 - i] = children.getGenotype(i);
 	}
@@ -83,7 +76,6 @@ void PopulationClass::addChildren(PopulationClass children, int totalChildren) {
 // Parameters: gt - the genotype of a child you want to add to a population
 // Post-Condition: adds child gt to population if there is room
 void PopulationClass::addChild(GenotypeClass gt) {
-	std::cout << "addChild" << std::endl;
 	if (size < N - 1) {
 		gts[size] = gt;
 		size++;
@@ -96,7 +88,6 @@ void PopulationClass::addChild(GenotypeClass gt) {
 //                 mutates 10% of the time
 // Returns:        child - the child of the two spliced parents
 GenotypeClass PopulationClass::Crossover(GenotypeClass & parentOne, GenotypeClass & parentTwo, int split) {
-	std::cout << "crossover" << std::endl;
 	// Parents to splice
 	GenotypeLocs one = parentOne.GetGenotypeLocs();
 	GenotypeLocs two = parentTwo.GetGenotypeLocs();
@@ -119,16 +110,4 @@ GenotypeClass PopulationClass::Crossover(GenotypeClass & parentOne, GenotypeClas
 	child.SetGenotypeLocs(feedus);
 	// return the new child
 	return child;
-}
-
-void PopulationClass::PrintPopToFile()
-{
-	std::ofstream fout;
-
-	fout.open("OUTPUT.txt", std::fstream::app| std::fstream::out);
-
-	for (int i = 0; i < populationSize; i++)
-	{
-		fout << gts[i].ToString() << std::endl << std::endl;
-	}
 }
