@@ -14,6 +14,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "PopulationClass.h"
+#include <iostream>
 #include <fstream>
 
 /*
@@ -59,6 +60,8 @@ int PopulationClass::getRandom(int n) {
 
 // Returns: a genotype at a specified location
 GenotypeClass PopulationClass::getGenotype(int i) {
+	std::cout << gts[i].ToString() << std::endl;
+
 	return gts[i];
 }
 
@@ -116,7 +119,7 @@ void PopulationClass::PrintPopToFile()
 {
 	std::ofstream fout;
 
-	fout.open("OUTPUT.txt", std::fstream::app| std::fstream::out);
+	fout.open("out.txt", std::fstream::app| std::fstream::out);
 
 	for (int i = 0; i < populationSize; i++)
 	{

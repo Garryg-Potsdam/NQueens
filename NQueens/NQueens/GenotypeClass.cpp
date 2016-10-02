@@ -13,7 +13,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "GenotypeClass.h"
-
+#include <iostream>
 
 ///////////////////////////////////////////////////////////////////////////////
 //                               Public Methods                              //
@@ -120,9 +120,13 @@ std::string GenotypeClass::ToString()
 {
 	std::string ans = "";
 
+	std::cout << std::endl;
+
 	for (int i = 0; i < arrSize; i++)
 	{
-		ans += gl[i];// +" ";
+		ans += gl[i] +" ";
+
+		std::cout << *&gl[i] << " ";
 	}
 
 	ans += "\n" +  PrintTopAndBottom();
