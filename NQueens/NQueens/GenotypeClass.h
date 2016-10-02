@@ -16,11 +16,12 @@
 #include <string>
 #include <iostream>
 
+const int MAX_ARRAY_SIZE = 100;
 const int DEFAULT_SIZE = 8;
 
 const float EPSILON = 0.0001f;
 
-typedef int * GenotypeLocs;
+typedef int GenotypeLocs[MAX_ARRAY_SIZE];
 
 class GenotypeClass
 {
@@ -33,9 +34,9 @@ public:
 
 	void SetArrSize(int size);
 
-	GenotypeLocs GetGenotypeLocs();
+	void SetGenotypeLocs(GenotypeLocs & locs);
 
-	void SetGenotypeLocs(GenotypeLocs locs);
+	void GetGenotypeLocs(GenotypeLocs & locs);
 
 	void MutateGenotype(int one, int two);
 
@@ -44,18 +45,6 @@ public:
 	bool WasSelectedForMatingPool();
 
 	void SetSelectedForMatingPool(bool set);
-
-	virtual bool operator<=(const GenotypeClass & rtOp) const;
-
-	virtual bool operator>=(const GenotypeClass & rtOp) const;
-
-	virtual bool operator<(const GenotypeClass & rtOp) const;
-
-	virtual bool operator>(const GenotypeClass & rtOp) const;
-
-	virtual bool operator==(const GenotypeClass & rtOp) const;
-
-	virtual bool operator!=(const GenotypeClass & rtOp) const;
 
 	std::string ToString();
 
@@ -68,14 +57,12 @@ protected:
 
 	float GetDiaCollisions();
 
-	void SetArrPointer(int * ptr);
-
 	void SetSize(int size);
 
 private:
 	std::string PrintTopAndBottom();
 
-	int * gl;
+	GenotypeLocs gl;
 	int arrSize;
 	float fitness;
 	bool mFlag;

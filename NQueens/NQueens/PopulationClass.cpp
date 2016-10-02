@@ -98,10 +98,13 @@ void PopulationClass::addChild(GenotypeClass gt) {
 GenotypeClass PopulationClass::Crossover(GenotypeClass & parentOne, GenotypeClass & parentTwo, int split) {
 	std::cout << "crossover" << std::endl;
 	// Parents to splice
-	GenotypeLocs one = parentOne.GetGenotypeLocs();
-	GenotypeLocs two = parentTwo.GetGenotypeLocs();
+	GenotypeLocs one;
+	parentOne.GetGenotypeLocs(one);
+	GenotypeLocs two;
+	parentTwo.GetGenotypeLocs(two);
+
 	// the child
-	GenotypeLocs feedus = new int[parentOne.getArrSize()];
+	GenotypeLocs feedus;
 
 	// add values from parent one
 	for (int i = 0; i < split; i++)

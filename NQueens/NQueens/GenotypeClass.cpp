@@ -38,19 +38,23 @@ int GenotypeClass::getArrSize() const
 
 void GenotypeClass::SetArrSize(int size)
 {
-	gl = new int [size];
-
 	arrSize = size;
 }
 
-GenotypeLocs GenotypeClass::GetGenotypeLocs()
+void GenotypeClass::SetGenotypeLocs(GenotypeLocs & locs)
 {
-	return gl;
+	for (int i = 0; i < arrSize; i++)
+	{
+		gl[i] = locs[i];
+	}
 }
 
-void GenotypeClass::SetGenotypeLocs(GenotypeLocs locs)
+void GenotypeClass::GetGenotypeLocs(GenotypeLocs & locs)
 {
-	gl = locs;
+	for (int i = 0; i < arrSize; i++)
+	{
+		locs[i] = gl[i];
+	}
 }
 
 void GenotypeClass::MutateGenotype(int one, int two)
@@ -77,54 +81,6 @@ void GenotypeClass::SetSelectedForMatingPool(bool set)
 	mFlag = set;
 }
 
-bool GenotypeClass::operator<=(const GenotypeClass & rtOp) const
-{
-	return fitness <= rtOp.fitness;
-}
-
-bool GenotypeClass::operator>=(const GenotypeClass & rtOp) const
-{
-	return fitness >= rtOp.fitness;
-}
-
-bool GenotypeClass::operator<(const GenotypeClass & rtOp) const
-{
-	return fitness < rtOp.fitness;
-}
-
-bool GenotypeClass::operator>(const GenotypeClass & rtOp) const
-{
-	return fitness > rtOp.fitness;
-}
-
-bool GenotypeClass::operator==(const GenotypeClass & rtOp) const
-{
-	if (arrSize == rtOp.arrSize)
-	{
-		for (int i = 0; i < arrSize; i++)
-			if (gl[i] != rtOp.gl[i])
-				return false;
-
-		return true;
-	}
-	else
-		throw NoComparisonForObjectException();
-}
-
-bool GenotypeClass::operator!=(const GenotypeClass & rtOp) const
-{
-	if (arrSize == rtOp.arrSize)
-	{
-		for (int i = 0; i < arrSize; i++)
-			if (gl[i] != rtOp.gl[i])
-				return true;
-
-		return false;
-	}
-	else
-		throw NoComparisonForObjectException();
-}
-
 std::string GenotypeClass::ToString()
 {
 	std::string ans = "";
@@ -134,9 +90,8 @@ std::string GenotypeClass::ToString()
 	for (int i = 0; i < arrSize; i++)
 	{
 		ans += gl[i] +" ";
-
-		std::cout << *&gl[i] << " ";
 	}
+
 	std::cout << ans << std::endl;
 	ans += "\n" +  PrintTopAndBottom();
 
@@ -183,17 +138,12 @@ std::string GenotypeClass::ToString()
 
 void GenotypeClass::GenerateGenotype(int s)
 {
-	GenotypeLocs nGl;
-
-	nGl = new int[s];
-
 	for (int i = 0; i < s; i++)
 	{
 		int temp = std::rand();
-		nGl[i] = temp % s;
+		gl[i] = temp % s;
 	}
 
-	gl = nGl;
 	SetSize(s);
 
 	CalculateFitness();
@@ -267,11 +217,6 @@ float GenotypeClass::GetDiaCollisions()
 	}
 
 	return tot;
-}
-
-void GenotypeClass::SetArrPointer(int * ptr) 
-{
-	gl = ptr;
 }
 
 void GenotypeClass::SetSize(int size)
