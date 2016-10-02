@@ -4,7 +4,7 @@
 //                                                                           //
 ///////////////////////////////////////////////////////////////////////////////
 //                                                                           //
-//	Author:		Gregory Hughes                                               //
+//	Author:		Gregory Hughes & Garry Griggs                                //
 //	Date:		9/26/2016                                                    //
 //	Project:	NQueens                                                      //
 //	FileName:	ExceptionClass.h                                             //
