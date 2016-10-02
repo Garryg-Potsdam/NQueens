@@ -13,7 +13,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "GenotypeClass.h"
-#include <iostream>
+
 
 ///////////////////////////////////////////////////////////////////////////////
 //                               Public Methods                              //
@@ -21,18 +21,12 @@
 
 GenotypeClass::GenotypeClass()
 {
-	GenotypeClass(DEFAULT_SIZE);
+	GenerateGenotype(DEFAULT_SIZE);
 }
 
 GenotypeClass::GenotypeClass(const int s)
 {
 	GenerateGenotype(s);
-
-	SetSize(s);
-
-	CalculateFitness();
-
-	mFlag = false;
 }
 
 int GenotypeClass::getArrSize() const 
@@ -176,9 +170,18 @@ void GenotypeClass::GenerateGenotype(int s)
 	nGl = new int[s];
 
 	for (int i = 0; i < s; i++)
-		nGl[i] = rand() % s;
+	{
+		int temp = std::rand();
+		nGl[i] = temp % s;
+	}
 
 	gl = nGl;
+
+	SetSize(s);
+
+	CalculateFitness();
+
+	mFlag = false;
 }
 
 void GenotypeClass::CalculateFitness()
@@ -232,8 +235,8 @@ float GenotypeClass::GetDiaCollisions()
 		{
 			if (j != i)
 			{
-				int x2 = j;
-				int y2 = gl[j];
+				//int x2 = j;
+				//int y2 = gl[j];
 
 				//		m =		(y1 - y2)	/ (x1 - x2)
 				int slope = (gl[i] - gl[j]) / (i - j);

@@ -14,6 +14,7 @@
 
 #include "ExceptionClass.h"
 #include <string>
+#include <iostream>s
 
 const int DEFAULT_SIZE = 8;
 

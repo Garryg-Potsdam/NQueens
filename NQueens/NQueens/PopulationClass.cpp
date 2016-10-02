@@ -14,6 +14,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "PopulationClass.h"
+#include <fstream>
 
 /*
 Author:		Garry Griggs & Gregory Hughes
@@ -31,8 +32,11 @@ PopulationClass::PopulationClass(int n, bool build) {
 	N = n;
 	size = 0;
 	populationSize = n * 10;
-	if (build)
+	if (build) {
 		buildPopulation();
+
+		PrintPopToFile();
+	}
 }
 
 // Post-Condition: fills population with random genotypes and mutates
@@ -41,7 +45,7 @@ void PopulationClass::buildPopulation() {
 	gts = new GenotypeClass[populationSize];
 	for (int i = 0; i < populationSize; i++) {
 		gts[i] = GenotypeClass(N);
-		if (getRandom(N) >(N / 10))
+		if (getRandom(N) > (N / 10))
 			gts[i].MutateGenotype(getRandom(N), getRandom(N));
 		size++;
 	}
@@ -50,7 +54,6 @@ void PopulationClass::buildPopulation() {
 // Parameters: n - the range to return a random in
 // Returns: a number in range [0, n]
 int PopulationClass::getRandom(int n) {
-	//srand(time(NULL));
 	return rand() % n;
 }
 
@@ -66,6 +69,8 @@ void PopulationClass::addChildren(PopulationClass children, int totalChildren) {
 	for (int i = 0; i < totalChildren; i++) {
 		gts[N - 1 - i] = children.getGenotype(i);
 	}
+
+
 }
 
 // Parameters: gt - the genotype of a child you want to add to a population
@@ -105,4 +110,16 @@ GenotypeClass PopulationClass::Crossover(GenotypeClass & parentOne, GenotypeClas
 	child.SetGenotypeLocs(feedus);
 	// return the new child
 	return child;
+}
+
+void PopulationClass::PrintPopToFile()
+{
+	std::ofstream fout;
+
+	fout.open("OUTPUT.txt", std::fstream::app| std::fstream::out);
+
+	for (int i = 0; i < populationSize; i++)
+	{
+		fout << gts[i].ToString() << std::endl << std::endl;
+	}
 }

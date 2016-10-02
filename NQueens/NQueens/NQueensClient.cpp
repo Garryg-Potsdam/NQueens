@@ -36,7 +36,8 @@ bool foundSolution(PopulationClass pop, int N);
 GenotypeClass solution;
 
 int main() {
-
+	//GenotypeClass solution;
+	
 	// Seed rand in main to maintain pseudo-randomness 
 	// and not reseed with every call to receive a new random number
 	srand(time(NULL));
@@ -76,7 +77,10 @@ int main() {
 		// decrement generations left
 		generations--;
 	}
-	solution.ToString();
+	
+	cout << solution.ToString() << endl;
+
+	system("pause");
 }
 
 

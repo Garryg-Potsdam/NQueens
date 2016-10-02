@@ -56,6 +56,8 @@ public:
 
 private:
 
+	void PrintPopToFile();
+
 	// Post-Condition: fills population with random genotypes and mutates
 	//                 10% of them
 	void buildPopulation();
