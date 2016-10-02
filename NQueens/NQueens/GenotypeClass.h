@@ -73,7 +73,7 @@ protected:
 private:
 	std::string PrintTopAndBottom();
 
-	GenotypeLocs gl;
+	int * gl;
 	int arrSize;
 	float fitness;
 	bool mFlag;

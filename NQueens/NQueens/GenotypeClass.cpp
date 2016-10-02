@@ -118,9 +118,14 @@ bool GenotypeClass::operator!=(const GenotypeClass & rtOp) const
 
 std::string GenotypeClass::ToString()
 {
-	std::string ans;
+	std::string ans = "";
 
-	ans = PrintTopAndBottom();
+	for (int i = 0; i < arrSize; i++)
+	{
+		ans += gl[i];// +" ";
+	}
+
+	ans += "\n" +  PrintTopAndBottom();
 
 	for (int i = arrSize - 1; i >= 0; i--)
 	{
