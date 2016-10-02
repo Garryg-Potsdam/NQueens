@@ -32,16 +32,14 @@ PopulationClass::PopulationClass(int n, bool build) {
 	N = n;
 	size = 0;
 	populationSize = n * 10;
+	gts = new GenotypeClass[populationSize];
 	if (build)
 		buildPopulation();
 }
 
 // Post-Condition: fills population with random genotypes and mutates
 //                 10% of them
-void PopulationClass::buildPopulation() {
-
-	gts = new GenotypeClass[populationSize];
-	
+void PopulationClass::buildPopulation() {	
 	for (int i = 0; i < populationSize; i++) {
 		gts[i].SetArrSize(size);
 		gts[i] = GenotypeClass(N);
@@ -49,6 +47,16 @@ void PopulationClass::buildPopulation() {
 			gts[i].MutateGenotype(getRandom(N), getRandom(N));
 		size++;
 	}
+	/*
+	for (int i = 0; i < populationSize; i++) {
+		std::cout << "Fitness " << i << ": " << gts[i].GetFitness() << std::endl;
+	}
+	mergesort(gts, 0, populationSize - 1);
+	std::cout << std::endl << std::endl;
+	for (int i = 0; i < populationSize; i++) {
+		std::cout << "Fitness " << i << ": " << gts[i].GetFitness() << std::endl;
+	}
+	*/
 }
 
 // Parameters: n - the range to return a random in
@@ -66,16 +74,19 @@ GenotypeClass PopulationClass::getGenotype(int i) {
 //             totalChildren - the total children you want added
 // Post-Condition: adds all the desired children from one population to another
 void PopulationClass::addChildren(PopulationClass children, int totalChildren) {
-	for (int i = 0; i < totalChildren; i++) {
-		gts[N - 1 - i] = children.getGenotype(i);
-	}
-
+	mergesort(gts, 0, populationSize - 1);
+	mergesort(children.gts, 0, populationSize - 1);
+	for (int i = 0; i < totalChildren; i++)
+		gts[i] = children.getGenotype(i);
 
 }
+
+
 
 // Parameters: gt - the genotype of a child you want to add to a population
 // Post-Condition: adds child gt to population if there is room
 void PopulationClass::addChild(GenotypeClass gt) {
+	std::cout << "addChild" << std::endl;
 	if (size < N - 1) {
 		gts[size] = gt;
 		size++;
@@ -113,4 +124,47 @@ GenotypeClass PopulationClass::Crossover(GenotypeClass & parentOne, GenotypeClas
 	child.SetGenotypeLocs(feedus);
 	// return the new child
 	return child;
+}
+
+
+void PopulationClass::mergesort(GenotypeClass *genes, int low, int high) {
+	int mid;
+	if (low < high) {
+		mid = (low + high) / 2;
+		mergesort(genes, low, mid);
+		mergesort(genes, mid + 1, high);
+		merge(genes, low, high, mid);
+	}
+	return;
+}
+void PopulationClass::merge(GenotypeClass *genes, int low, int high, int mid) {
+	int i, j, k;
+	GenotypeClass allele[50];
+	i = low;
+	k = low;
+	j = mid + 1;
+	while (i <= mid && j <= high) {
+		if (genes[i].GetFitness() < genes[j].GetFitness()) {
+			allele[k] = genes[i];
+			k++;
+			i++;
+		} else {
+			allele[k] = genes[j];
+			k++;
+			j++;
+		}
+	}
+	while (i <= mid) {
+		allele[k] = genes[i];
+		k++;
+		i++;
+	}
+	while (j <= high) {
+		allele[k] = genes[j];
+		k++;
+		j++;
+	}
+	for (i = low; i < k; i++) {
+		genes[i] = allele[i];
+	}
 }

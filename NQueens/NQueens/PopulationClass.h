@@ -55,9 +55,8 @@ public:
 
 
 private:
-
-	void PrintPopToFile();
-
+	void mergesort(GenotypeClass *a, int low, int high);
+	void merge(GenotypeClass *a, int low, int high, int mid);
 	// Post-Condition: fills population with random genotypes and mutates
 	//                 10% of them
 	void buildPopulation();

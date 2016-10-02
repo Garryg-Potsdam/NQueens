@@ -63,9 +63,8 @@ int main() {
 	// Main evolution loop
 	while (generations > 0) {
 		// if we find a solution we grab it and stop evolving
-		if (foundSolution(mainPop, N)) {	
+		if (foundSolution(mainPop, N))
 			break;
-		}
 		// Population of this gens parents
 		PopulationClass parents  = buildParents(mainPop, parentSize, popSize);
 		// Population of this gens children
@@ -75,7 +74,8 @@ int main() {
 		// decrement generations left
 		generations--;
 	}
-	cout << getSolutionGenotype(mainPop, N).ToString() << endl;
+	if (foundSolution(mainPop, N))
+		cout << getSolutionGenotype(mainPop, N).ToString() << endl;
 }
 
 
