@@ -23,8 +23,6 @@ FileName:	Population.cpp
 Purpose:	Population Class methods
 */
 
-#include "Population.h"
-
 // Parameters:     n - 1/10 the population size
 //             build - boolean value true = make random population
 //                     false = make no population

@@ -9,11 +9,9 @@
 
 #include <ctime>
 #include <iostream>
-#include "Genotype.h"
+#include "GenotypeClass.h"
 
-
-
-class Population : public Genotype {
+class Population : public GenotypeClass {
 
 public:
 	// Parameters:     n - 1/10 the population size
@@ -27,7 +25,7 @@ public:
 	int getRandom(int n);
 
 	// Returns: a genotype at a specified location
-	Genotype getGenotype(int i);
+	GenotypeClass getGenotype(int i);
 
 	// Parameters:      children - the population to add children from
 	//             totalChildren - the total children you want added
@@ -36,14 +34,14 @@ public:
 
 	// Parameters: gt - the genotype of a child you want to add to a population
 	// Post-Condition: adds child gt to population if there is room
-	void addChild(Genotype gt);
+	void addChild(GenotypeClass gt);
 
 	// Parameters: parentOne - the first parent to take a chunk of genotype from
 	//             parentTwo - the second paretn to take a chunk of genotype from
 	// Post-Condition: takes a chunk from each parent and builds a new child then 
 	//                 mutates 10% of the time
 	// Returns:        child - the child of the two spliced parents
-	Genotype Crossover(Genotype & rentOne, Genotype & rentTwo, int split);
+	GenotypeClass Crossover(GenotypeClass & rentOne, GenotypeClass & rentTwo, int split);
 	
 private:
 
@@ -51,6 +49,5 @@ private:
 	int populationSize;
 	int N;
 	int size;
-	Genotype *gts;
-
+	GenotypeClass *gts;
 };
