@@ -54,7 +54,7 @@ int main() {
 	while (generations > 0) {
 		// if we find a solution we grab it and stop evolving
 		if (foundSolution(mainPop, N)) {
-			gSolution = getSolutionGenotype(mainPop);
+			gSolution = getSolutionGenotype(mainPop, N);
 			break;
 		}
 		// Population of this gens parents
