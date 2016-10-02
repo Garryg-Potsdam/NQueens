@@ -28,15 +28,12 @@ PopulationClass buildParents(PopulationClass mainPop, int parentSize, int popSiz
 // Returns: a batch of fresh children
 PopulationClass makeBabies(PopulationClass parents, int parentSize);
 
-// Parameters: mainPop - the main population in the evolution
-//                   N - 1/10 the size of the population
-// Retuns: a solution for NQueens if one was found
-GenotypeClass getSolutionGenotype(PopulationClass mainPop, int N);
-
 // Parameters:  pop - the population to check for a solution in
 //                N - 1/10 of the population size
 // Returns:    bool - true if there is a solution false otherwise
 bool foundSolution(PopulationClass pop, int N);
+
+GenotypeClass solution;
 
 int main() {
 
@@ -54,6 +51,7 @@ int main() {
 	if (N % 2 == 1)
 		parentSize++;
 
+
 	// Total allowed generations
 	int generations = 1000;	
 	// Population of randomly generated genotypes
@@ -66,7 +64,7 @@ int main() {
 		// if we find a solution we grab it and stop evolving
 		if (foundSolution(mainPop, N)) {
 			// Missing Integer in method function call. see line 19
-			gSolution = getSolutionGenotype(mainPop, N);
+			solution;
 			break;
 		}
 		// Population of this gens parents
@@ -78,7 +76,7 @@ int main() {
 		// decrement generations left
 		generations--;
 	}
-
+	solution.ToString();
 }
 
 
@@ -118,15 +116,7 @@ PopulationClass makeBabies(PopulationClass parents, int parentSize) {
 		children.addChild(parents.Crossover(parents.getGenotype(i), parents.getGenotype(i + 1), parents.getRandom(parentSize)));
 		children.addChild(parents.Crossover(parents.getGenotype(i + 1), parents.getGenotype(i), parents.getRandom(parentSize)));
 	}
-}
-
-GenotypeClass solution;
-
-// Parameters: mainPop - the main population in the evolution
-//                   N - 1/10 the size of the population
-// Retuns: a solution for NQueens if one was found
-GenotypeClass getSolutionGenotype(PopulationClass pop, int N) {
-	return solution;
+	return children;
 }
 
 

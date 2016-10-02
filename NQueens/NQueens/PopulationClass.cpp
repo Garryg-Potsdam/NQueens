@@ -93,7 +93,7 @@ GenotypeClass PopulationClass::Crossover(GenotypeClass & parentOne, GenotypeClas
 	for (int i = 0; i < split; i++)
 		feedus[i] = one[i];
 	// add values from parent two
-	for (int i = split; i < parentOne.getArrSize; i++)
+	for (int i = split; i < parentOne.getArrSize(); i++)
 		feedus[i] = two[i];
 
 	// the new child
