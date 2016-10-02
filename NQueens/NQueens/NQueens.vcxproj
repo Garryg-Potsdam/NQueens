@@ -146,17 +146,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="GameBoard.cpp" />
-    <ClCompile Include="Genotype.cpp" />
+    <ClCompile Include="GenotypeClass.cpp" />
     <ClCompile Include="NQueensClient.cpp" />
-    <ClCompile Include="Population.cpp" />
+    <ClCompile Include="PopulationClass.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ExceptionClass.h" />
-    <ClInclude Include="GameBoard.h" />
-    <ClInclude Include="Genotype.h" />
-    <ClInclude Include="LocRec.h" />
-    <ClInclude Include="Population.h" />
+    <ClInclude Include="GenotypeClass.h" />
+    <ClInclude Include="PopulationClass.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
