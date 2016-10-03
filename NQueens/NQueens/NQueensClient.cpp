@@ -28,11 +28,6 @@ Population buildParents(Population mainPop, int genomeSize, int parentSize, int 
 // Returns: a batch of fresh children
 Population makeBabies(Population parents, int gnomeSize, int parentSize);
 
-// Parameters: mainPop - the main population in the evolution
-//                   N - 1/10 the size of the population
-// Retuns: a solution for NQueens if one was found
-Genotype getSolutionGenotype(Population mainPop, int N);
-
 // Parameters:  pop - the population to check for a solution in
 //                N - 1/10 of the population size
 // Returns:    bool - true if there is a solution false otherwise
@@ -62,22 +57,19 @@ int main() {
 
 	// Main evolution loop
 	while (generations < 1001) {
-		cout << "Current Generation: " << generations << endl;
 		// if we find a solution we grab it and stop evolving
 		if (foundSolution(mainPop, N))
 			break;
+			
 		// Population of this gens parents
 		Population parents  = buildParents(mainPop, N, parentSize, popSize);
 		// Population of this gens children
 		Population children = makeBabies(parents, N, parentSize);
 		// Add the best children elimnate the worst from previous gen
-		mainPop.addGenes(children, parentSize / 2);
+		mainPop.addGenes(children, parentSize);
 		// decrement generations left
 		generations++;
-	}
-	if (foundSolution(mainPop, N)) {
-		Genotype temp = getSolutionGenotype(mainPop, N);
-		cout << temp.ToString() << endl;
+
 	}
 }
 
@@ -121,27 +113,14 @@ Population makeBabies(Population parents, int gnomeSize, int parentSize) {
 	return children;
 }
 
-
-// Parameters: mainPop - the main population in the evolution
-//                   N - 1/10 the size of the population
-// Retuns: a solution for NQueens if one was found
-Genotype getSolutionGenotype(Population pop, int N) {
-	pop.sort();
-	for (int i = N * 10 - 1; i > 0; i--)
-		if (pop.getGenotype(i).GetFitness() == 10000)
-			return pop.getGenotype(i);
-}
-
 // Parameters:  pop - the population to check for a solution in
 //                N - 1/10 of the population size
 // Returns:    bool - true if there is a solution false otherwise
-bool foundSolution(Population pop, int N) {
-	pop.sort();	
-	for (int i = N * 10 - 1; i > 0; i--) {
-		float popVal = pop.getGenotype(i).GetFitness();		
-		if (popVal == 10000)
+bool foundSolution(Population pop, int N) {	
+	for (int i = N * 10 - 1; i > 0; i--)
+		if (pop.getGenotype(i).GetFitness() == 10000) {
+			cout << pop.getGenotype(i).ToString() << endl;
 			return true;
-	}
-	pop.shuffle();	
+		}
 	return false;
 }
