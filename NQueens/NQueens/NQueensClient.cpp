@@ -45,7 +45,7 @@ bool foundSolution(Population pop, int N);
 int main() 
 {
 	// Values to run program for
-	int N, generations, runTimes, children;
+	int N, generations, runTimes, childrenCount;
 
 	// Gather information
 	cout << "Enter the board size: ";
@@ -58,7 +58,7 @@ int main()
 	cin  >> runTimes;
 
 	cout << "How many children: ";
-	cin >> children;
+	cin >> childrenCount;
 
 	// Calculate values
 	// Population size
@@ -101,7 +101,7 @@ int main()
 				Population parents = buildParents(mainPop, N, parentSize, popSize);
 
 				// Population of this gens children
-				Population children = makeBabies(parents, N, parentSize);
+				Population children = makeBabies(parents, N, childrenCount);
 				
 				// Add the best children elimnate the worst from previous gen
 				mainPop.addGenes(children, parentSize);
@@ -158,7 +158,6 @@ Population buildParents(Population mainPop, int gnomeSize, int parentSize, int p
 //             parentSize - the amount of parents in the parent population
 // Returns: a batch of fresh children
 Population makeBabies(Population parents, int gnomeSize, int childCount) {
-	childCount = 30;
 	Population children(gnomeSize, childCount, false);
 	for (int i = 0; i < childCount; i++) {
 		int one = rand() % parents.getSize();
