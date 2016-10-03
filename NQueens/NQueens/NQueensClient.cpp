@@ -18,12 +18,14 @@
 using namespace std;
 
 // Parameters:    mainPop - the main population in the evolution
+//			   genomeSize - the size of N the genome
 //             parentSize - the amount of parents in the parent population
 //                popSize - the size of the actual population
 // Returns: a population of parents to mate
 Population buildParents(Population mainPop, int genomeSize, int parentSize, int popSize);
 
 // Parameters:    parents - the genotypes to be mated
+//			   genomeSize - the size of N the genome
 //             parentSize - the amount of parents in the parent population
 // Returns: a batch of fresh children
 Population makeBabies(Population parents, int gnomeSize, int parentSize);
@@ -31,6 +33,7 @@ Population makeBabies(Population parents, int gnomeSize, int parentSize);
 // Parameters:  pop - the population to check for a solution in
 //                N - 1/10 of the population size
 // Returns:    bool - true if there is a solution false otherwise
+// Post-Condition: prints the first correct solution it finds
 bool foundSolution(Population pop, int N);
 
 int main() {
@@ -40,7 +43,7 @@ int main() {
 	srand(time(NULL));
 	
 	// Board size
-	int N = 4;
+	int N = 25;
 	// Population size
 	int popSize = N * 10;
 	// The amount of parents
@@ -48,33 +51,40 @@ int main() {
 	// increment if parentSize is odd
 	if (N % 2 == 1)
 		parentSize++;
-
+	// is there a solution
+	bool solution = true;
 	// Total allowed generations
 	int generations = 1;	
 	// Population of randomly generated genotypes
 	Population mainPop = Population(N, popSize, true);
 	// if a solution is found its stored in this
+	if (!foundSolution(mainPop, mainPop.getSize())) {
+		solution = false;
+		// Main evolution loop
+		while (generations < 1001) {
+			// if we find a solution we grab it and stop evolving
+			cout << "Generation: " << generations << endl;
 
-	// Main evolution loop
-	while (generations < 1001) {
-		// if we find a solution we grab it and stop evolving
-		if (foundSolution(mainPop, N))
-			break;
-			
-		// Population of this gens parents
-		Population parents  = buildParents(mainPop, N, parentSize, popSize);
-		// Population of this gens children
-		Population children = makeBabies(parents, N, parentSize);
-		// Add the best children elimnate the worst from previous gen
-		mainPop.addGenes(children, parentSize);
-		// decrement generations left
-		generations++;
+			// Population of this gens parents
+			Population parents = buildParents(mainPop, N, parentSize, popSize);
+			// Population of this gens children
+			Population children = makeBabies(parents, N, parentSize);
+			// Add the best children elimnate the worst from previous gen
+			mainPop.addGenes(children, parentSize);
+			if (solution = foundSolution(children, children.getSize()))
+				break;
+			// decrement generations left
+			generations++;
 
+		}
 	}
+	if (!solution)
+		cout << "There was no solution found" << endl;
 }
 
 
 // Parameters:    mainPop - the main population in the evolution
+//			   genomeSize - the size of N the genome
 //             parentSize - the amount of parents in the parent population
 //                popSize - the size of the actual population
 // Returns: a population of parents to mate
@@ -102,6 +112,7 @@ Population buildParents(Population mainPop, int gnomeSize, int parentSize, int p
 }
 
 // Parameters:    parents - the genotypes to be mated
+//			   genomeSize - the size of N the genome
 //             parentSize - the amount of parents in the parent population
 // Returns: a batch of fresh children
 Population makeBabies(Population parents, int gnomeSize, int parentSize) {
@@ -114,10 +125,11 @@ Population makeBabies(Population parents, int gnomeSize, int parentSize) {
 }
 
 // Parameters:  pop - the population to check for a solution in
-//                N - 1/10 of the population size
+//             size - population size to look through
 // Returns:    bool - true if there is a solution false otherwise
-bool foundSolution(Population pop, int N) {	
-	for (int i = N * 10 - 1; i > 0; i--)
+// Post-Condition: prints the first correct solution it finds
+bool foundSolution(Population pop, int size) {
+	for (int i = size - 1; i > 0; i--)
 		if (pop.getGenotype(i).GetFitness() == 10000) {
 			cout << pop.getGenotype(i).ToString() << endl;
 			return true;
