@@ -32,20 +32,19 @@ Population::Population(int n, int popSize, bool build) {
 	N = n;
 	size = 0;
 	populationSize = popSize;
-	gts = new Genotype[popSize];	
-	if (build)
-		buildPopulation();
+	gts.assign(popSize, Genotype(N));
+	if (build)		
+		buildPopulation();	
 }
 
 // Post-Condition: fills population with random genotypes and mutates
 //                 10% of them
-void Population::buildPopulation() {
-	
+void Population::buildPopulation() {	
 	for (int i = 0; i < populationSize; i++) {
-		gts[i].SetArrSize(N);
 		gts[i] = Genotype(N);
-		if (getRandom(N) > (N / 10))
-			gts[i].MutateGenotype(getRandom(N), getRandom(N));
+		Genotype temp = gts[i];
+		if (getRandom(100) < 10)
+			temp.MutateGenotype(getRandom(N), getRandom(N));
 		size++;
 	}
 }
@@ -68,7 +67,6 @@ void Population::addGenes(Population newGenes, int totalGenes) {
 	sort();
 	newGenes.sort();
 	for (int i = 0; i < totalGenes; i++) {
-		gts[i].SetArrSize(N);
 		gts[i] = newGenes.getGenotype(i);
 	}
 	shuffle();
@@ -79,7 +77,6 @@ void Population::addGenes(Population newGenes, int totalGenes) {
 // Post-Condition: adds child gt to population if there is room
 void Population::addGene(Genotype gt) {
 	if (size < N - 1) {
-		gts[size].SetArrSize(N);
 		gts[size] = gt;
 		size++;
 	}
@@ -90,15 +87,18 @@ void Population::addGene(Genotype gt) {
 // Post-Condition: takes a chunk from each parent and builds a new child then 
 //                 mutates 10% of the time
 // Returns:        child - the child of the two spliced parents
-Genotype Population::Crossover(Genotype & parentOne, Genotype & parentTwo, int split) {
+Genotype Population::Crossover(Genotype &parentOne, Genotype &parentTwo, int split) {
 	// Parents to splice
 	GenotypeLocs one;
+	one.assign(N, 0);
 	parentOne.GetGenotypeLocs(one);
 	GenotypeLocs two;
+	two.assign(N, 0);
 	parentTwo.GetGenotypeLocs(two);
 
 	// the child
 	GenotypeLocs feedus;
+	feedus.assign(N, 0);
 
 	// add values from parent one
 	for (int i = 0; i < split; i++)
@@ -137,7 +137,7 @@ void Population::shuffle() {
 	}
 }
 
-void Population::mergesort(Genotype *genes, int low, int high) {
+void Population::mergesort(std::vector<Genotype> genes, int low, int high) {
 	int mid;
 	if (low < high) {
 		mid = (low + high) / 2;
@@ -147,9 +147,12 @@ void Population::mergesort(Genotype *genes, int low, int high) {
 	}
 	return;
 }
-void Population::merge(Genotype *genes, int low, int high, int mid) {
+
+void Population::merge(std::vector<Genotype> genes, int low, int high, int mid) {
 	int i, j, k;
-	Genotype allele[1000];
+	std::vector<Genotype> allele;
+	int size = getSize();
+	allele.assign(1000, Genotype(N));
 	i = low;
 	k = low;
 	j = mid + 1;
