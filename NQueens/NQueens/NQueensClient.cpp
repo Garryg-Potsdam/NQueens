@@ -40,7 +40,7 @@ Population makeBabies(Population parents, int gnomeSize, int parentSize);
 //                N - 1/10 of the population size
 // Returns:    bool - true if there is a solution false otherwise
 // Post-Condition: prints the first correct solution it finds
-bool foundSolution(Population pop, int N);
+bool foundSolution(Population pop, int N, ofstream & dout);
 
 int main() 
 {
@@ -88,7 +88,7 @@ int main()
 		Population mainPop = Population(N, popSize, true);
 
 		// if a solution is found its stored in this
-		if (!foundSolution(mainPop, mainPop.getSize())) 
+		if (!foundSolution(mainPop, mainPop.getSize(), dout)) 
 		{
 			fout << "Run Times Left: " << runTimes << endl;
 			dout << "Run Times Left: " << runTimes << endl;
@@ -107,10 +107,7 @@ int main()
 				mainPop.addGenes(children, parentSize);
 				
 				// If a solution is found, we leave the main loop.
-				if (foundSolution(children, children.getSize()))
-				{
-					break;
-				}
+				if (foundSolution(children, children.getSize(), dout)) {break;}
 
 				// decrement generations left
 				generations++;
@@ -171,10 +168,10 @@ Population makeBabies(Population parents, int gnomeSize, int childCount) {
 //             size - population size to look through
 // Returns:    bool - true if there is a solution false otherwise
 // Post-Condition: prints the first correct solution it finds
-bool foundSolution(Population pop, int size) {
+bool foundSolution(Population pop, int size, ofstream& dout) {
 	for (int i = size - 1; i > 0; i--)
 		if (pop.getGenotype(i).GetFitness() == 10000) {
-			cout << pop.getGenotype(i).ToString() << endl;
+			dout << pop.getGenotype(i).ToString() << endl;
 			return true;
 		}
 	return false;
