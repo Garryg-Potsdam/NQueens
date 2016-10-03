@@ -43,17 +43,17 @@ int main() {
 	srand(time(NULL));
 	
 
-	// GREG: CIN these three variables
-	// Board size
-	int N = 12; 
-	// Total allowed generations
-	int generations = 1;
-	// total times to run
-	int runTimes = 25;
+	int N, generations, runTimes;
 
-	cout << "Enter the board size, number of generations and the run time, deliminated by spaces:" << endl;
-
-	cin >> N >> generations >> runTimes;
+	cout << "Enter the board size: ";
+	cin >> N;
+	cout << "Number of generations: ";
+	cin >> generations; 
+	cout << "Amount of run times: ";
+	cin  >> runTimes;
+	int children;
+	cout << "How many children: ";
+	cin >> children;
 
 	// Population size
 	int popSize = N * 10;
@@ -65,12 +65,10 @@ int main() {
 
 	while (runTimes > 0) {
 		// is there a solution
-		bool solution = true;
 		// Population of randomly generated genotypes
 		Population mainPop = Population(N, popSize, true);
 		// if a solution is found its stored in this
 		if (!foundSolution(mainPop, mainPop.getSize())) {
-			solution = false;
 			cout << "Run Times Left: " << runTimes << endl;
 			// Main evolution loop
 			while (generations < 1001) {
@@ -81,7 +79,7 @@ int main() {
 				Population children = makeBabies(parents, N, parentSize);
 				// Add the best children elimnate the worst from previous gen
 				mainPop.addGenes(children, parentSize);
-				if (solution = foundSolution(children, children.getSize()))
+				if (foundSolution(children, children.getSize()))
 					break;
 				// decrement generations left
 				generations++;
@@ -91,7 +89,6 @@ int main() {
 		runTimes--;
 	}
 }
-
 
 // Parameters:    mainPop - the main population in the evolution
 //			   genomeSize - the size of N the genome
