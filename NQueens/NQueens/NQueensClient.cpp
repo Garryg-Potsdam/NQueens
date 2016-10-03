@@ -42,8 +42,17 @@ int main() {
 	// and not reseed with every call to receive a new random number
 	srand(time(NULL));
 	
+
+	// GREG: CIN these three variables
 	// Board size
-	int N = 25;
+	int N = 12; 
+	// Total allowed generations
+	int generations = 1;
+	// total times to run
+	int runTimes = 25;
+
+
+
 	// Population size
 	int popSize = N * 10;
 	// The amount of parents
@@ -51,35 +60,34 @@ int main() {
 	// increment if parentSize is odd
 	if (N % 2 == 1)
 		parentSize++;
-	// is there a solution
-	bool solution = true;
-	// Total allowed generations
-	int generations = 1;	
-	// Population of randomly generated genotypes
-	Population mainPop = Population(N, popSize, true);
-	// if a solution is found its stored in this
-	if (!foundSolution(mainPop, mainPop.getSize())) {
-		solution = false;
-		// Main evolution loop
-		while (generations < 1001) {
-			// if we find a solution we grab it and stop evolving
-			cout << "Generation: " << generations << endl;
 
-			// Population of this gens parents
-			Population parents = buildParents(mainPop, N, parentSize, popSize);
-			// Population of this gens children
-			Population children = makeBabies(parents, N, parentSize);
-			// Add the best children elimnate the worst from previous gen
-			mainPop.addGenes(children, parentSize);
-			if (solution = foundSolution(children, children.getSize()))
-				break;
-			// decrement generations left
-			generations++;
-
+	while (runTimes > 0) {
+		// is there a solution
+		bool solution = true;
+		// Population of randomly generated genotypes
+		Population mainPop = Population(N, popSize, true);
+		// if a solution is found its stored in this
+		if (!foundSolution(mainPop, mainPop.getSize())) {
+			solution = false;
+			cout << "Run Times Left: " << runTimes << endl;
+			// Main evolution loop
+			while (generations < 1001) {
+				cout << "Generations: " << generations << endl;
+				// if we find a solution we grab it and stop evolving				
+				// Population of this gens parents
+				Population parents = buildParents(mainPop, N, parentSize, popSize);
+				// Population of this gens children
+				Population children = makeBabies(parents, N, parentSize);
+				// Add the best children elimnate the worst from previous gen
+				mainPop.addGenes(children, parentSize);
+				if (solution = foundSolution(children, children.getSize()))
+					break;
+				// decrement generations left
+				generations++;
+			}
 		}
+		runTimes--;
 	}
-	if (!solution)
-		cout << "There was no solution found" << endl;
 }
 
 
