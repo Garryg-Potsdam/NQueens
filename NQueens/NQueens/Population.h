@@ -55,9 +55,12 @@ public:
 	void sort();
 	int getSize();
 
+protected:
+	std::vector<Genotype> gts;
+
 private:
-	void mergesort(Genotype *a, int low, int high);
-	void merge(Genotype *a, int low, int high, int mid);
+	void mergesort(std::vector<Genotype> genes, int low, int high);
+	void merge(std::vector<Genotype> genes, int low, int high, int mid);
 	// Post-Condition: fills population with random genotypes and mutates
 	//                 10% of them
 	void buildPopulation();
@@ -65,5 +68,5 @@ private:
 	int populationSize;
 	int N;
 	int size;
-	Genotype *gts;
+	
 };
