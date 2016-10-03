@@ -72,7 +72,6 @@ int main() {
 			cout << "Run Times Left: " << runTimes << endl;
 			// Main evolution loop
 			while (generations < 1001) {
-				cout << "Generations: " << generations << endl;
 				// if we find a solution we grab it and stop evolving				
 				// Population of this gens parents
 				Population parents = buildParents(mainPop, N, parentSize, popSize);
@@ -86,6 +85,7 @@ int main() {
 				generations++;
 			}
 		}
+		generations = 1;
 		runTimes--;
 	}
 }
