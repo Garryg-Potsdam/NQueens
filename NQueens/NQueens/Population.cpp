@@ -64,7 +64,7 @@ void Population::addGenes(Population newGenes, int totalGenes) {
 	//newGenes.sort();
 	for (int i = totalGenes - 1; i >= 0; i--) {
 		Genotype newG = newGenes.getGenotype(i);
-		int oldG = getRandom(getSize());
+		int oldG = rand() % getSize();
 		if (newG.GetFitness() > gts[oldG].GetFitness()) {
 			gts[oldG] = newG;
 		}
@@ -94,11 +94,6 @@ Genotype Population::Crossover(Genotype &parentOne, Genotype &parentTwo, int spl
 	GenotypeLocs two;
 	two.assign(N, 0);
 	parentTwo.GetGenotypeLocs(two);
-	//std::cout << "Parent One: ";
-	//parentOne.printGenome();
-	//std::cout << "Parent Two: ";
-	//parentTwo.printGenome();
-	// the child
 	GenotypeLocs feedus;
 	feedus.assign(N, 0);
 
@@ -112,16 +107,8 @@ Genotype Population::Crossover(Genotype &parentOne, Genotype &parentTwo, int spl
 	// the new child
 	Genotype child = Genotype(N);	
 	child.SetGenotypeLocs(feedus);
-	//std::cout << "Child: ";
-	//child.printGenome();
-	// mutate if conditions met
-	if (getRandom(100) < (N / 10)) {
+	if (getRandom(100) < (N / 10))
 		child.MutateGenotype(getRandom(N), getRandom(N));
-		//std::cout << "Mutated Child: ";
-		//child.printGenome();
-	}
-	//system("pause");
-	// return the new child
 	return child;
 }
 
@@ -133,6 +120,12 @@ int Population::getSize() {
 // Post: Condition: sorts the population by fitness
 void Population::sort() {
 	mergesort(gts, 0, populationSize - 1);
+}
+
+void Population::annihilate(int kill) {
+	Population newSeeds(N, getSize() / 4, true);
+	for (int i = 0; i < newSeeds.getSize(); i++)
+		gts[i] = newSeeds.getGenotype(i);
 }
 
 // Post: Condition: shuffles the population

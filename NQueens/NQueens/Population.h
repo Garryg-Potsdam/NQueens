@@ -59,6 +59,8 @@ public:
 	// Returns: size - the size of the population
 	int getSize();
 
+	void Population::annihilate(int kill);
+
 protected:
 	// the Genotype vector where the population is kept
 	std::vector<Genotype> gts;
