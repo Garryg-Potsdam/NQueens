@@ -51,7 +51,9 @@ int main() {
 	// total times to run
 	int runTimes = 25;
 
+	cout << "Enter the board size, number of generations and the run time, deliminated by spaces:" << endl;
 
+	cin >> N >> generations >> runTimes;
 
 	// Population size
 	int popSize = N * 10;
