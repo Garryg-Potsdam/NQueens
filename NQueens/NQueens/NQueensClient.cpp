@@ -51,9 +51,14 @@ int main() {
 	// total times to run
 	int runTimes = 25;
 
-	cout << "Enter the board size, number of generations and the run time, deliminated by spaces:" << endl;
-
-	cin >> N >> generations >> runTimes;
+	cout << "Enter the board size:\n"; 
+	cin >> N;
+	
+	cout << "Enter the number of generations:\n"; 
+	cin >> generations;
+	
+	cout << "Enter the run time, deliminated by spaces:" << endl;
+	cin >> runTimes;
 
 	// Population size
 	int popSize = N * 10;
@@ -63,26 +68,37 @@ int main() {
 	if (N % 2 == 1)
 		parentSize++;
 
-	while (runTimes > 0) {
+	while (runTimes > 0) 
+	{
 		// is there a solution
 		bool solution = true;
+		
 		// Population of randomly generated genotypes
 		Population mainPop = Population(N, popSize, true);
+		
 		// if a solution is found its stored in this
-		if (!foundSolution(mainPop, mainPop.getSize())) {
+		if (!foundSolution(mainPop, mainPop.getSize())) 
+		{
 			solution = false;
 			cout << "Run Times Left: " << runTimes << endl;
+		
 			// Main evolution loop
-			while (generations < 1001) {
+			while (generations < 1001) 
+			{
 				// if we find a solution we grab it and stop evolving				
 				// Population of this gens parents
 				Population parents = buildParents(mainPop, N, parentSize, popSize);
+				
 				// Population of this gens children
 				Population children = makeBabies(parents, N, parentSize);
+				
 				// Add the best children elimnate the worst from previous gen
 				mainPop.addGenes(children, parentSize);
+				
+				//If solution is found exit main loop
 				if (solution = foundSolution(children, children.getSize()))
 					break;
+				
 				// decrement generations left
 				generations++;
 			}
