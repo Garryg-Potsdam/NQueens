@@ -13,9 +13,15 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include <ctime>
+#include <fstream>
 #include "Population.h"
 
 using namespace std;
+
+// Constants
+const string OUT_FILE = "out.txt";
+
+const string DETAILED_OUT = "dets.txt";
 
 // Parameters:    mainPop - the main population in the evolution
 //			   genomeSize - the size of N the genome
@@ -36,25 +42,25 @@ Population makeBabies(Population parents, int gnomeSize, int parentSize);
 // Post-Condition: prints the first correct solution it finds
 bool foundSolution(Population pop, int N);
 
-int main() {
+int main() 
+{
+	// Values to run program for
+	int N, generations, runTimes, children;
 
-	// Seed rand in main to maintain pseudo-randomness 
-	// and not reseed with every call to receive a new random number
-	srand(time(NULL));
-	
-
-	int N, generations, runTimes;
-
+	// Gather information
 	cout << "Enter the board size: ";
 	cin >> N;
+	
 	cout << "Number of generations: ";
 	cin >> generations; 
+	
 	cout << "Amount of run times: ";
 	cin  >> runTimes;
-	int children;
+
 	cout << "How many children: ";
 	cin >> children;
 
+	// Calculate values
 	// Population size
 	int popSize = N * 10;
 	// The amount of parents
@@ -63,31 +69,60 @@ int main() {
 	if (N % 2 == 1)
 		parentSize++;
 
-	while (runTimes > 0) {
+	ofstream fout;
+
+	ofstream dout;
+
+	fout.open(OUT_FILE.c_str());
+
+	dout.open(DETAILED_OUT.c_str());
+
+	while (runTimes > 0) 
+	{
+		// Seed rand in main to maintain pseudo-randomness 
+		// and not reseed with every call to receive a new random number
+		srand(time(NULL));
+
 		// is there a solution
 		// Population of randomly generated genotypes
 		Population mainPop = Population(N, popSize, true);
+
 		// if a solution is found its stored in this
-		if (!foundSolution(mainPop, mainPop.getSize())) {
-			cout << "Run Times Left: " << runTimes << endl;
+		if (!foundSolution(mainPop, mainPop.getSize())) 
+		{
+			fout << "Run Times Left: " << runTimes << endl;
+			dout << "Run Times Left: " << runTimes << endl;
+			
 			// Main evolution loop
-			while (generations < 1001) {
+			while (generations < 1001) 
+			{
 				// if we find a solution we grab it and stop evolving				
 				// Population of this gens parents
 				Population parents = buildParents(mainPop, N, parentSize, popSize);
+
 				// Population of this gens children
 				Population children = makeBabies(parents, N, parentSize);
+				
 				// Add the best children elimnate the worst from previous gen
 				mainPop.addGenes(children, parentSize);
+				
+				// If a solution is found, we leave the main loop.
 				if (foundSolution(children, children.getSize()))
+				{
 					break;
+				}
+
 				// decrement generations left
 				generations++;
 			}
 		}
+
 		generations = 1;
 		runTimes--;
 	}
+
+	fout.close();
+	dout.close();
 }
 
 // Parameters:    mainPop - the main population in the evolution
