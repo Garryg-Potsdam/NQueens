@@ -127,6 +127,7 @@ void Genotype::GenerateGenotype(int s)
 void Genotype::printGenome() {
 	for (int i = 0; i < arrSize; i++)
 		std::cout << "[" << gl[i] <<  "]";
+	std::cout << std::endl;
 }
 
 float Genotype::CalculateFitness()

@@ -60,9 +60,15 @@ Genotype Population::getGenotype(int i) {
 // Parameters:      children - the population to add children from
 //             totalChildren - the total children you want added
 // Post-Condition: adds all the desired children from one population to another
-void Population::addGenes(Population newGenes, int totalGenes) {	
-	for (int i = 0; i < totalGenes; i++)
-		gts[getRandom(getSize())] = newGenes.getGenotype(i);
+void Population::addGenes(Population newGenes, int totalGenes) {
+	//newGenes.sort();
+	for (int i = totalGenes - 1; i >= 0; i--) {
+		Genotype newG = newGenes.getGenotype(i);
+		int oldG = getRandom(getSize());
+		if (newG.GetFitness() > gts[oldG].GetFitness()) {
+			gts[oldG] = newG;
+		}
+	}
 }
 
 
@@ -88,7 +94,10 @@ Genotype Population::Crossover(Genotype &parentOne, Genotype &parentTwo, int spl
 	GenotypeLocs two;
 	two.assign(N, 0);
 	parentTwo.GetGenotypeLocs(two);
-
+	//std::cout << "Parent One: ";
+	//parentOne.printGenome();
+	//std::cout << "Parent Two: ";
+	//parentTwo.printGenome();
 	// the child
 	GenotypeLocs feedus;
 	feedus.assign(N, 0);
@@ -101,12 +110,17 @@ Genotype Population::Crossover(Genotype &parentOne, Genotype &parentTwo, int spl
 		feedus[i] = two[i];
 
 	// the new child
-	Genotype child = Genotype(parentOne.getArrSize());
-	// mutate if conditions met
-	if (getRandom(100) > (N / 10))
-		child.MutateGenotype(getRandom(N), getRandom(N));
-
+	Genotype child = Genotype(N);	
 	child.SetGenotypeLocs(feedus);
+	//std::cout << "Child: ";
+	//child.printGenome();
+	// mutate if conditions met
+	if (getRandom(100) < (N / 10)) {
+		child.MutateGenotype(getRandom(N), getRandom(N));
+		//std::cout << "Mutated Child: ";
+		//child.printGenome();
+	}
+	//system("pause");
 	// return the new child
 	return child;
 }

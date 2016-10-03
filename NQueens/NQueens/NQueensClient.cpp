@@ -42,6 +42,10 @@ Population makeBabies(Population parents, int gnomeSize, int parentSize);
 // Post-Condition: prints the first correct solution it finds
 bool foundSolution(Population pop, int N, ofstream & dout);
 
+// Parameters:  pop - the population to check for a solution in         
+// Post-Condition: prints the highest fitness that gen
+void getHighestFitness(Population pop);
+
 int main() 
 {
 	// Values to run program for
@@ -86,16 +90,17 @@ int main()
 		// is there a solution
 		// Population of randomly generated genotypes
 		Population mainPop = Population(N, popSize, true);
-
 		// if a solution is found its stored in this
 		if (!foundSolution(mainPop, mainPop.getSize(), dout)) 
 		{
 			fout << "Run Times Left: " << runTimes << endl;
 			dout << "Run Times Left: " << runTimes << endl;
+			cout << "Run Times Left: " << runTimes << endl;
 			
 			// Main evolution loop
-			while (generations < 1001) 
+			while (generations > 0) 
 			{
+				cout << "Generations Left: " << generations << endl;
 				// if we find a solution we grab it and stop evolving				
 				// Population of this gens parents
 				Population parents = buildParents(mainPop, N, parentSize, popSize);
@@ -110,11 +115,12 @@ int main()
 				if (foundSolution(children, children.getSize(), dout)) {break;}
 
 				// decrement generations left
-				generations++;
+				generations--;
+				getHighestFitness(children);
 			}
 		}
 
-		generations = 1;
+		generations = 0;
 		runTimes--;
 	}
 
@@ -162,6 +168,17 @@ Population makeBabies(Population parents, int gnomeSize, int childCount) {
 		children.addGene(parents.Crossover(parents.getGenotype(one), parents.getGenotype(two), parents.getRandom(parents.getSize())));
 	}
 	return children;
+}
+
+// Parameters:  pop - the population to check for a solution in         
+// Post-Condition: prints the highest fitness that gen
+void getHighestFitness(Population pop) {
+	Genotype temp = pop.getGenotype(0);
+	for (int i = 1; i < pop.getSize(); i++) {
+		if (temp.GetFitness() > pop.getGenotype(i).GetFitness())
+			temp = pop.getGenotype(i);
+	}
+	cout << "Highest Fitness: " << temp.GetFitness() << endl;	
 }
 
 // Parameters:  pop - the population to check for a solution in
