@@ -31,7 +31,7 @@ Genotype::Genotype(int s)
 {
 	SetArrSize(s);
 	gl.resize(s);
-	GenerateGenotype(s);	
+	GenerateGenotype(s);
 }
 
 int Genotype::getArrSize() const 
@@ -71,7 +71,7 @@ void Genotype::MutateGenotype(int one, int two)
 
 float Genotype::GetFitness()
 {
-	return fitness;
+	return CalculateFitness();
 }
 
 bool Genotype::WasSelectedForMatingPool()
@@ -101,6 +101,8 @@ std::string Genotype::ToString()
 		ans += "|";
 		ans += "\n" + PrintTopAndBottom();
 	}
+	
+
 	return ans;
 }
 
@@ -117,8 +119,9 @@ void Genotype::GenerateGenotype(int s)
 		int temp = std::rand();
 		gl[i] = temp % s;
 	}
-	
-	CalculateFitness();
+
+	if (rand() % 100 < 10)
+		MutateGenotype(rand() % s, rand() % s);
 
 	mFlag = false;
 }
@@ -128,12 +131,12 @@ void Genotype::printGenome() {
 		std::cout << "[" << gl[i] <<  "]";
 }
 
-void Genotype::CalculateFitness()
+float Genotype::CalculateFitness()
 {
 	float totCollisions = 0.0f;	
-	totCollisions = GetRowCollisions() + GetDiaCollisions();
-	// set PDM
-	fitness = 1 / (totCollisions + EPSILON);
+	totCollisions = GetRowCollisions() + GetDiaCollisions() + EPSILON;
+	// set PDM	
+	return (1 / totCollisions);
 }
 
 float Genotype::GetRowCollisions()
@@ -146,10 +149,12 @@ float Genotype::GetRowCollisions()
 	for (int i = 0; i < arrSize; i++) {
 		v[gl[i]]++;		
 	}
+
 	for (int i = 0; i < arrSize; i++) {
 		if (v[i] > 0)
 			tot += (v[i] * (v[i] - 1)) / 2;
 	}
+
 	return tot;
 }
 
