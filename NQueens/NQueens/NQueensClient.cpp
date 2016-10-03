@@ -122,11 +122,13 @@ Population buildParents(Population mainPop, int gnomeSize, int parentSize, int p
 //			   genomeSize - the size of N the genome
 //             parentSize - the amount of parents in the parent population
 // Returns: a batch of fresh children
-Population makeBabies(Population parents, int gnomeSize, int parentSize) {
-	Population children(gnomeSize, parentSize, false);
-	for (int i = 0; i < parentSize; i += 2) {
-		children.addGene(parents.Crossover(parents.getGenotype(i), parents.getGenotype(i + 1), parents.getRandom(parentSize)));
-		children.addGene(parents.Crossover(parents.getGenotype(i + 1), parents.getGenotype(i), parents.getRandom(parentSize)));
+Population makeBabies(Population parents, int gnomeSize, int childCount) {
+	childCount = 30;
+	Population children(gnomeSize, childCount, false);
+	for (int i = 0; i < childCount; i++) {
+		int one = rand() % parents.getSize();
+		int two = rand() % parents.getSize();
+		children.addGene(parents.Crossover(parents.getGenotype(one), parents.getGenotype(two), parents.getRandom(parents.getSize())));
 	}
 	return children;
 }
