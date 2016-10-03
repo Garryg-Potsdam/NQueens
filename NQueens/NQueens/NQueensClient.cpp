@@ -21,12 +21,12 @@ using namespace std;
 //             parentSize - the amount of parents in the parent population
 //                popSize - the size of the actual population
 // Returns: a population of parents to mate
-Population buildParents(Population mainPop, int parentSize, int popSize);
+Population buildParents(Population mainPop, int genomeSize, int parentSize, int popSize);
 
 // Parameters:    parents - the genotypes to be mated
 //             parentSize - the amount of parents in the parent population
 // Returns: a batch of fresh children
-Population makeBabies(Population parents, int parentSize);
+Population makeBabies(Population parents, int gnomeSize, int parentSize);
 
 // Parameters: mainPop - the main population in the evolution
 //                   N - 1/10 the size of the population
@@ -57,7 +57,7 @@ int main() {
 	// Total allowed generations
 	int generations = 1;	
 	// Population of randomly generated genotypes
-	Population mainPop = Population(N, N * 10, true);
+	Population mainPop = Population(N, popSize, true);
 	// if a solution is found its stored in this
 
 	// Main evolution loop
@@ -67,16 +67,18 @@ int main() {
 		if (foundSolution(mainPop, N))
 			break;
 		// Population of this gens parents
-		Population parents  = buildParents(mainPop, parentSize, popSize);
+		Population parents  = buildParents(mainPop, N, parentSize, popSize);
 		// Population of this gens children
-		Population children = makeBabies(parents, parentSize);
+		Population children = makeBabies(parents, N, parentSize);
 		// Add the best children elimnate the worst from previous gen
 		mainPop.addGenes(children, parentSize / 2);
 		// decrement generations left
 		generations++;
 	}
-	if (foundSolution(mainPop, N))
-		cout << getSolutionGenotype(mainPop, N).ToString() << endl;
+	if (foundSolution(mainPop, N)) {
+		Genotype temp = getSolutionGenotype(mainPop, N);
+		cout << temp.ToString() << endl;
+	}
 }
 
 
@@ -84,8 +86,8 @@ int main() {
 //             parentSize - the amount of parents in the parent population
 //                popSize - the size of the actual population
 // Returns: a population of parents to mate
-Population buildParents(Population mainPop, int parentSize, int popSize) {
-	Population parents(parentSize, parentSize, false);
+Population buildParents(Population mainPop, int gnomeSize, int parentSize, int popSize) {
+	Population parents(gnomeSize, parentSize, false);
 	for (int i = 0; i < parentSize; i++) {
 		// randomly get three potential maters
 		Genotype materOne = mainPop.getGenotype(mainPop.getRandom(popSize));
@@ -110,8 +112,8 @@ Population buildParents(Population mainPop, int parentSize, int popSize) {
 // Parameters:    parents - the genotypes to be mated
 //             parentSize - the amount of parents in the parent population
 // Returns: a batch of fresh children
-Population makeBabies(Population parents, int parentSize) {
-	Population children(parentSize, parentSize, false);
+Population makeBabies(Population parents, int gnomeSize, int parentSize) {
+	Population children(gnomeSize, parentSize, false);
 	for (int i = 0; i < parentSize; i += 2) {
 		children.addGene(parents.Crossover(parents.getGenotype(i), parents.getGenotype(i + 1), parents.getRandom(parentSize)));
 		children.addGene(parents.Crossover(parents.getGenotype(i + 1), parents.getGenotype(i), parents.getRandom(parentSize)));
@@ -134,10 +136,12 @@ Genotype getSolutionGenotype(Population pop, int N) {
 //                N - 1/10 of the population size
 // Returns:    bool - true if there is a solution false otherwise
 bool foundSolution(Population pop, int N) {
-	pop.sort();
-	for (int i = N * 10 - 1; i > 0; i--)
-		if (pop.getGenotype(i).GetFitness() == 10000) 
+	pop.sort();	
+	for (int i = N * 10 - 1; i > 0; i--) {
+		float popVal = pop.getGenotype(i).GetFitness();		
+		if (popVal == 10000)
 			return true;
+	}
 	pop.shuffle();	
 	return false;
 }
