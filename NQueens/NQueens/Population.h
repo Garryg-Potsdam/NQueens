@@ -47,8 +47,6 @@ public:
 
 	// Parameters: parentOne - the first parent to take a chunk of genotype from
 	//             parentTwo - the second paretn to take a chunk of genotype from
-	// Post-Condition: takes a chunk from each parent and builds a new child then 
-	//                 mutates 10% of the time
 	// Returns:        child - the child of the two spliced parents	
 	void addGene(Genotype gt);
 	void shuffle();

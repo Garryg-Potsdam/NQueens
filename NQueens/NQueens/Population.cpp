@@ -43,9 +43,7 @@ void Population::buildPopulation() {
 	for (int i = 0; i < populationSize; i++) {
 		gts[i] = Genotype(N);
 		Genotype temp = gts[i];
-		if (getRandom(100) < 10)
-			temp.MutateGenotype(getRandom(N), getRandom(N));
-		size++;
+		size++;		
 	}
 }
 
@@ -63,13 +61,9 @@ Genotype Population::getGenotype(int i) {
 // Parameters:      children - the population to add children from
 //             totalChildren - the total children you want added
 // Post-Condition: adds all the desired children from one population to another
-void Population::addGenes(Population newGenes, int totalGenes) {
-	sort();
-	newGenes.sort();
-	for (int i = 0; i < totalGenes; i++) {
-		gts[i] = newGenes.getGenotype(i);
-	}
-	shuffle();
+void Population::addGenes(Population newGenes, int totalGenes) {	
+	for (int i = 0; i < totalGenes; i++)
+		gts[getRandom(getSize())] = newGenes.getGenotype(i);
 }
 
 
@@ -110,7 +104,7 @@ Genotype Population::Crossover(Genotype &parentOne, Genotype &parentTwo, int spl
 	// the new child
 	Genotype child = Genotype(parentOne.getArrSize());
 	// mutate if conditions met
-	if (getRandom(N) >(N / 10))
+	if (getRandom(100) > (N / 10))
 		child.MutateGenotype(getRandom(N), getRandom(N));
 
 	child.SetGenotypeLocs(feedus);
