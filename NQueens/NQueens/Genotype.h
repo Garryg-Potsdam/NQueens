@@ -48,7 +48,7 @@ public:
 protected:
 	void GenerateGenotype(int s);
 
-	void CalculateFitness();
+	float CalculateFitness();
 	
 	float GetRowCollisions();
 
@@ -59,6 +59,5 @@ private:
 
 	GenotypeLocs gl;
 	int arrSize;
-	float fitness;
 	bool mFlag;
 };
