@@ -14,29 +14,26 @@
 
 #include "ExceptionClass.h"
 #include <string>
+#include <vector>
 #include <iostream>
-
-const int MAX_ARRAY_SIZE = 100;
-const int DEFAULT_SIZE = 8;
 
 const float EPSILON = 0.0001f;
 
-typedef int GenotypeLocs[MAX_ARRAY_SIZE];
+typedef std::vector<int> GenotypeLocs;
 
 class Genotype
 {
 public:
 	Genotype();
-
 	Genotype(int size);
 
 	int getArrSize() const;
-
+	void printGenome();
 	void SetArrSize(int size);
 
-	void SetGenotypeLocs(GenotypeLocs & locs);
+	void SetGenotypeLocs(GenotypeLocs &locs);
 
-	void GetGenotypeLocs(GenotypeLocs & locs);
+	void GetGenotypeLocs(GenotypeLocs &locs);
 
 	void MutateGenotype(int one, int two);
 
@@ -56,8 +53,6 @@ protected:
 	float GetRowCollisions();
 
 	float GetDiaCollisions();
-
-	void SetSize(int size);
 
 private:
 	std::string PrintTopAndBottom();
