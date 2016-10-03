@@ -70,7 +70,7 @@ void Population::addGenes(Population newGenes, int totalGenes) {
 // Parameters: gt - the genotype of a child you want to add to a population
 // Post-Condition: adds child gt to population if there is room
 void Population::addGene(Genotype gt) {
-	if (size < N - 1) {
+	if (size < populationSize) {
 		gts[size] = gt;
 		size++;
 	}
@@ -112,15 +112,17 @@ Genotype Population::Crossover(Genotype &parentOne, Genotype &parentTwo, int spl
 	return child;
 }
 
-
+// Returns: size - the size of the population
 int Population::getSize() {
 	return size;
 }
 
+// Post: Condition: sorts the population by fitness
 void Population::sort() {
 	mergesort(gts, 0, populationSize - 1);
 }
 
+// Post: Condition: shuffles the population
 void Population::shuffle() {
 	for (int i = 0; i < N * 10; i++) {
 		int randOne = getRandom(N * 10);
@@ -131,6 +133,10 @@ void Population::shuffle() {
 	}
 }
 
+// Parameters: genes - a vectior of Genotypes to sort by fitness
+//               low - the left most position
+//              high - the right most position
+// Post-Condition: sorts the genes by fitness
 void Population::mergesort(std::vector<Genotype> genes, int low, int high) {
 	int mid;
 	if (low < high) {
@@ -142,6 +148,11 @@ void Population::mergesort(std::vector<Genotype> genes, int low, int high) {
 	return;
 }
 
+// Parameters: genes - a vectior of Genotypes to sort by fitness
+//               low - the left most position
+//               mid - the middle position of vector chunk
+//              high - the right most position
+// Post-Condition: sorts the genes by fitness
 void Population::merge(std::vector<Genotype> genes, int low, int high, int mid) {
 	int i, j, k;
 	std::vector<Genotype> allele;
