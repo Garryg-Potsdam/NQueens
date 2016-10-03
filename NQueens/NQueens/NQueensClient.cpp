@@ -19,9 +19,9 @@
 using namespace std;
 
 // Constants
-const string OUT_FILE = "out.txt";
+const string OUT_FILE = "out.out";
 
-const string DETAILED_OUT = "dets.txt";
+const string DETAILED_OUT = "details.out";
 
 // Parameters:    mainPop - the main population in the evolution
 //			   genomeSize - the size of N the genome
