@@ -49,22 +49,45 @@ public:
 	//             parentTwo - the second paretn to take a chunk of genotype from
 	// Returns:        child - the child of the two spliced parents	
 	void addGene(Genotype gt);
+
+	// Post: Condition: shuffles the population
 	void shuffle();
+
+	// Post: Condition: sorts the population by fitness
 	void sort();
+
+	// Returns: size - the size of the population
 	int getSize();
 
 protected:
+	// the Genotype vector where the population is kept
 	std::vector<Genotype> gts;
 
 private:
+
+	// Parameters: genes - a vectior of Genotypes to sort by fitness
+	//               low - the left most position
+	//              high - the right most position
+	// Post-Condition: sorts the genes by fitness
 	void mergesort(std::vector<Genotype> genes, int low, int high);
+
+	// Parameters: genes - a vectior of Genotypes to sort by fitness
+	//               low - the left most position
+	//               mid - the middle position of vector chunk
+	//              high - the right most position
+	// Post-Condition: sorts the genes by fitness
 	void merge(std::vector<Genotype> genes, int low, int high, int mid);
-	// Post-Condition: fills population with random genotypes and mutates
-	//                 10% of them
+
+	// Post-Condition: fills population with random genotypes and mutates	
 	void buildPopulation();
 
+	// the max size of the population
 	int populationSize;
+
+	// The size of the genome
 	int N;
+
+	// the current size of the population
 	int size;
 	
 };
