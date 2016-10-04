@@ -83,7 +83,8 @@ int main() {
 		// is there a solution
 		// Population of randomly generated genotypes
 		Population mainPop = Population(N, popSize, true);
-		
+
+		// keep track of generations
 		int deGen = 0;
 		int generationNumOfHighestFitness = 0;
 		
@@ -99,27 +100,23 @@ int main() {
 			// Main evolution loop
 			while (generations > deGen) {
 
+				// keep track of local max
 				if (curMax == prevMax) {
 					countLocalMax++;					
 				} else {
 					generationNumOfHighestFitness = deGen;
 					prevMax = curMax;
 					countLocalMax = 0;					
-				}
-				
+				}				
 				
 				// if we are stuck at a local max, why not pour in some
 				// radiation
-				if (countLocalMax == popSize)
-					mainPop.annihilate(popSize / 2);
-				else if (countLocalMax == mutate) {
-					mainPop.radiation();
-					
+				if (countLocalMax == mutate) {
+					mainPop.radiation();					
 					countLocalMax = 0; // reset countLocalMax
 					// set the current max					
 					curMax = mainPop.getHighestFitness();
 					if (curMax == 10000) {break;}
-
 				}
 				
 				// if we find a solution we grab it and stop evolving				
@@ -134,8 +131,14 @@ int main() {
 				
 				// set the current max
 				curMax = mainPop.getHighestFitness();
-				//cout << "curMax: " << curMax << endl;
+				
 				if (curMax == 10000) {break;}
+
+				// add new blood to pool
+				mainPop.annihilate(childrenCount / 4);
+				curMax = mainPop.getHighestFitness();				
+
+				if (curMax == 10000) { break; }
 
 				// increment for current gen
 				deGen++;
