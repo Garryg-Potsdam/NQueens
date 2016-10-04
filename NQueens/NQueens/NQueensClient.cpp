@@ -35,6 +35,10 @@ Population buildParents(Population mainPop, int genomeSize, int parentSize, int 
 // Post-Condition: adds a batch of fresh children
 Population makeBabies(Population parents, int gnomeSize, int parentSize);
 
+// Params:	None
+// Post:	Hopefully the console is cleared of it's contents.
+void ClearConsoleBecauseWeAreNotOnWindows();
+
 int main() 
 {
 	// Values to run program for
@@ -75,6 +79,9 @@ int main()
 
 	while (runTimesTotal > runTime) 
 	{
+		ClearConsoleBecauseWeAreNotOnWindows();
+		cout << (runTime * 100) / runTimesTotal << "% complete" << endl;
+
 		// reseed random for each run time
 		srand(time(NULL));
 
@@ -289,4 +296,12 @@ Population makeBabies(Population parents, int gnomeSize, int childCount) {
 		children.addGene(parents.Crossover(parents.getGenotype(one), parents.getGenotype(two), rand() % gnomeSize));
 	}
 	return children;
+}
+
+// Params:	None
+// Post:	Hopefully the console is cleared of it's contents.
+void ClearConsoleBecauseWeAreNotOnWindows()
+{
+	for (int i = 0; i < 200; i++)
+		cout << endl;
 }
