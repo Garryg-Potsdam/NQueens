@@ -66,10 +66,9 @@ void Population::addGene(Genotype gt) {
 }
 
 // Parameters:      children - the population to add children from
-//             totalChildren - the total children you want added
 // Post-Condition: adds all the desired children from one population to another
-void Population::addGenes(Population newGenes, int totalGenes) {
-	for (int i = 0; i < totalGenes; i++) {
+void Population::addGenes(Population newGenes) {
+	for (int i = 0; i < newGenes.getSize(); i++) {
 		Genotype newG = newGenes.getGenotype(i);
 		int oldG = rand() % getSize();
 		if (gts[oldG].GetFitness() < newG.GetFitness())
@@ -79,11 +78,11 @@ void Population::addGenes(Population newGenes, int totalGenes) {
 
 // Returns the highest current fitness
 float Population::getHighestFitness() {
-	float temp = 0.0;
+	float fitness = 0.0;
 	for (int i = 0; i < getSize(); i++)
-		if (gts[i].GetFitness() > temp)
-			temp = gts[i].GetFitness();
-	return temp;
+		if (gts[i].GetFitness() > fitness)
+			fitness = gts[i].GetFitness();
+	return fitness;
 }
 
 // If we find a solution, grab it and send it up
@@ -98,16 +97,17 @@ void Population::annihilate(int kill) {
 	Population newSeeds(N, kill, true);
 	for (int i = 0; i < newSeeds.getSize(); i++) {
 		int oldG = rand() % populationSize;
-		if (gts[oldG].GetFitness() < newSeeds.getGenotype(i).GetFitness())
+		Genotype newG = newSeeds.getGenotype(i);
 			gts[oldG] = newSeeds.getGenotype(i);
 	}
 }
 
 // Mutate half the population if we are stuck at a local max
 void Population::radiation() {
-	for (int i = 0; i < getSize(); i++)
-		if (rand() % 100 < 50)
-			gts[i].MutateGenotype(rand() % N, rand() % N);
+	for (int i = 0; i < getSize(); i++) {
+		gts[i].MutateGenotypeAllele(rand() % N, rand() % N, N);
+		gts[i].MutateGenotype(rand() % N, rand() % N);
+	}
 }
 
 // Parameters: parentOne - the first parent to take a chunk of genotype from
