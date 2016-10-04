@@ -36,8 +36,7 @@ Population buildParents(Population mainPop, int genomeSize, int parentSize, int 
 // Returns: a batch of fresh children
 Population makeBabies(Population parents, int gnomeSize, int parentSize);
 
-int main() 
-{
+int main() {
 	// Values to run program for
 	int N, generations, runTimes, childrenCount;
 
@@ -58,7 +57,7 @@ int main()
 	// Population size
 	int popSize = N * 10;
 	// radiation to break local maximum
-	int mutate = 5 * N;	
+	int mutate = N * 3;	
 	// The amount of parents
 	int parentSize = N;
 	// increment if parentSize is odd
@@ -76,8 +75,7 @@ int main()
 	// Default generations
 	int deGen = generations;
 
-	while (runTimes > 0) 
-	{
+	while (runTimes > 0) {
 		// Seed rand in main to maintain pseudo-randomness 
 		// and not reseed with every call to receive a new random number
 		srand(time(NULL));
@@ -99,16 +97,11 @@ int main()
 			// Main evolution loop
 			while (generations > 0) {			
 
-				// if at local max increment
-				if (curMax <= prevMax)
+				if (prevMax == 10000) {
+					cout << mainPop.getSolution() << endl;
+					break;
+				} else {
 					countLocalMax++;
-				else { // new max check if a solution
-					prevMax = curMax;
-					if (prevMax == 10000) {
-						cout << mainPop.getSolution() << endl;
-						break;
-					}
-					countLocalMax = 0; // reset countLocalMax
 				}
 				
 				// if we are stuck at a local max, why not pour in some
@@ -116,6 +109,12 @@ int main()
 				if (countLocalMax == mutate) {
 					mainPop.radiation();
 					countLocalMax = 0; // reset countLocalMax
+					// set the current max
+					prevMax = mainPop.getHighestFitness();
+					if (prevMax == 10000) {
+						cout << mainPop.getSolution() << endl;
+						break;
+					}
 				}
 
 				dout << "Generations Left: " << generations << endl;
@@ -133,7 +132,7 @@ int main()
 				mainPop.annihilate(childrenCount);	
 
 				// set the current max
-				curMax = mainPop.getHighestFitness();
+				prevMax = mainPop.getHighestFitness();
 
 				// decrement generations left
 				generations--;
