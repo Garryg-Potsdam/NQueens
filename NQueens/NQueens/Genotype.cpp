@@ -13,19 +13,24 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "Genotype.h"
-#include <cstdlib>
+//#include <cstdlib>
 
 ///////////////////////////////////////////////////////////////////////////////
 //                               Public Methods                              //
 ///////////////////////////////////////////////////////////////////////////////
 
+// Non-default contructor
+// Params:	size - integet size of the genotype to build
+// Post:	A vector to hold a default size of 'size' will be created
 Genotype::Genotype()
 {
-	int s = 8;
-	gl.reserve(s);
-	GenerateGenotype(s);
+	gl.reserve(DEFAULT_N);
+	GenerateGenotype(DEFAULT_N);
 }
 
+// Non-default contructor
+// Params:	size - integet size of the genotype to build
+// Post:	A vector to hold a default size of 'size' will be created
 Genotype::Genotype(int s)
 {
 	SetArrSize(s);
@@ -33,16 +38,22 @@ Genotype::Genotype(int s)
 	GenerateGenotype(s);
 }
 
+// Params:	None
+// Post:	The size of the gl vector is returned
 int Genotype::getArrSize() const 
 {
 	return arrSize;
 }
 
+// Params:	size - new size of the vector
+// Post:	The size of the vector is changed to 'size'
 void Genotype::SetArrSize(int size)
 {
 	arrSize = size;
 }
 
+// Params:	A seperate genotype is created is given to method
+// Post:	The object is updated to the given locs
 void Genotype::SetGenotypeLocs(GenotypeLocs &locs)
 {
 	for (int i = 0; i < arrSize; i++)
@@ -52,6 +63,8 @@ void Genotype::SetGenotypeLocs(GenotypeLocs &locs)
 	CalculateFitness();
 }
 
+// Params:	A blank genotype is created and given to method to modify
+// Post:	The locs is updated to the current object
 void Genotype::GetGenotypeLocs(GenotypeLocs &locs)
 {
 	for (int i = 0; i < arrSize; i++)
@@ -60,6 +73,8 @@ void Genotype::GetGenotypeLocs(GenotypeLocs &locs)
 	}
 }
 
+// Params:	one, two, the positions in the vector to swap
+// Post:	The positions in the vector, one and two, are swapped
 void Genotype::MutateGenotype(int one, int two)
 {
 	int temp = gl[one];
@@ -70,7 +85,8 @@ void Genotype::MutateGenotype(int one, int two)
 	CalculateFitness();
 }
 
-// Mutate a specific spot to add new values
+// Params:	one, two, the positions in the vector to randomize
+// Post:	Specific positions in the vector are randomized
 void Genotype::MutateGenotypeAllele(int one, int two, int n)
 {
 	gl[one] = rand() % n;
@@ -79,21 +95,30 @@ void Genotype::MutateGenotypeAllele(int one, int two, int n)
 	CalculateFitness();
 }
 
+// Params:	none
+// Post:	The fitness of the current Genome is returned
 float Genotype::GetFitness()
 {
 	return fitness;
 }
 
+// Params:	None
+// Post:	predicates to caller if genome was selected for mating
 bool Genotype::WasSelectedForMatingPool()
 {
 	return mFlag;
 }
 
+// Params:	Boolean set, true if selected false otherwise
+// Post:	PDM for selection set to 'set'
 void Genotype::SetSelectedForMatingPool(bool set)
 {
 	mFlag = set;
 }
 
+// Params:	None
+// Post:	A string is returned to caller showing the board 
+//			and the positions of the queens 
 std::string Genotype::ToString()
 {
 	std::string ans = PrintTopAndBottom();
@@ -121,7 +146,8 @@ std::string Genotype::ToString()
 //                            Protected Methods                              //
 ///////////////////////////////////////////////////////////////////////////////
 
-
+// Params:	size - The size of the genome to generate
+// Post:	The genome is generated
 void Genotype::GenerateGenotype(int s)
 {
 	for (int i = 0; i < s; i++)
@@ -136,12 +162,15 @@ void Genotype::GenerateGenotype(int s)
 	mFlag = false;
 }
 
-void Genotype::printGenome() {
-	for (int i = 0; i < arrSize; i++)
-		std::cout << "[" << gl[i] <<  "]";
-	std::cout << std::endl;
-}
+// test function
+//void Genotype::printGenome() {
+//	for (int i = 0; i < arrSize; i++)
+//		std::cout << "[" << gl[i] <<  "]";
+//	std::cout << std::endl;
+//}
 
+// Params:	None
+// Post:	The fitness for the current genotype is calculated
 void Genotype::CalculateFitness()
 {
 	float totCollisions = 0.0f;	
@@ -150,6 +179,8 @@ void Genotype::CalculateFitness()
 	fitness = (1 / totCollisions);
 }
 
+// Params:	None
+// Post:	The number of collisions for all rows is returned(double)
 float Genotype::GetRowCollisions()
 {
 	float tot = 0;
@@ -169,6 +200,8 @@ float Genotype::GetRowCollisions()
 	return tot;
 }
 
+// Params:	none
+// Post:	A string of the top/bottom of the board is returned to caller
 float Genotype::GetDiaCollisions()
 {
 	float tot = 0;
@@ -194,6 +227,8 @@ float Genotype::GetDiaCollisions()
 //                              Private Methods                              //
 ///////////////////////////////////////////////////////////////////////////////
 
+// Params:	none
+// Post:	A string of the top/bottom of the board is returned to caller
 std::string Genotype::PrintTopAndBottom()
 {
 	std::string ans;

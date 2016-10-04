@@ -50,6 +50,8 @@ int main() {
 	
 	cout << "Amount of run times: ";
 	cin  >> runTimesTotal;
+	
+	// LCV
 	int runTime = 0;
 	
 	// Calculate values
@@ -61,25 +63,23 @@ int main() {
 	int mutate = N * 5;	
 	// The amount of parents
 	int parentSize = N;
+	
 	// increment if parentSize is odd
 	if (N % 2 == 1)
 		parentSize++;
 
-	ofstream fout;
+	// open the details of the file output
 
 	ofstream dout;
 
-	fout.open(OUT_FILE.c_str());
-
 	dout.open(DETAILED_OUT.c_str());
 
-	// Default generations
-    srand(time(NULL));	
 
-	while (runTimesTotal > runTime) {
-		// Seed rand in main to maintain pseudo-randomness 
-		// and not reseed with every call to receive a new random number
-//		srand(time(NULL));
+
+	while (runTimesTotal > runTime) 
+	{
+		// reseed random for each run time
+		srand(time(NULL));
 
 		// is there a solution
 		// Population of randomly generated genotypes
@@ -88,23 +88,26 @@ int main() {
 		// keep track of generations
 		int deGen = 0;
 		int generationNumOfHighestFitness = 0;
-		
-		
-		
+
 		// are we at a local max
 		int countLocalMax = 0;
 		float prevMax = mainPop.getHighestFitness();
 		float curMax = prevMax;
+		
 		// if a solution is found its stored in this
-		if (prevMax != 10000) {
-			
+		if (prevMax != 10000) 
+		{	
 			// Main evolution loop
-			while (generations > deGen) {
+			while (generations > deGen) 
+			{
 
 				// keep track of local max
-				if (curMax == prevMax) {
+				if (curMax == prevMax) 
+				{
 					countLocalMax++;					
-				} else {
+				}
+				else 
+				{
 					generationNumOfHighestFitness = deGen;
 					prevMax = curMax;
 					countLocalMax = 0;					
@@ -112,11 +115,14 @@ int main() {
 				
 				// if we are stuck at a local max, why not pour in some
 				// radiation
-				if (countLocalMax == mutate) {
+				if (countLocalMax == mutate) 
+				{
 					mainPop.radiation();					
 					countLocalMax = 0; // reset countLocalMax
 					// set the current max					
 					curMax = mainPop.getHighestFitness();
+
+					// break if we are done.
 					if (curMax == 10000) {break;}
 				}
 				
@@ -139,35 +145,41 @@ int main() {
 				deGen++;
 				
 			}
-		} else {
-			// do nothing this time
-		}		
+		} 
+		// else do nothing...
 		
-		if (curMax == 10000) {
-			cout << "CURRENT RUN TIME: " << runTime << endl;
-			cout << "Generation Of Highest Fitness: " << generationNumOfHighestFitness << endl;
-			cout << "Highest Fitness: " << curMax << endl;
-			cout << "Solution: " << endl << mainPop.getSolution() << endl;
+		if (curMax == 10000) 
+		{
+			// Do not print to console
+			//cout << "CURRENT RUN TIME: " << runTime << endl;
+			//cout << "Generation Of Highest Fitness: " << generationNumOfHighestFitness << endl;
+			//cout << "Highest Fitness: " << curMax << endl;
+			//cout << "Solution: " << endl << mainPop.getSolution() << endl;
 
 			dout << "CURRENT RUN TIME: " << runTime << endl;
 			dout << "Generation Of Highest Fitness: " << generationNumOfHighestFitness << endl;
 			dout << "Highest Fitness: " << curMax << endl;
 			dout << "Solution: " << endl << mainPop.getSolution() << endl;
-		} else {
-			cout << "CURRENT RUN TIME: " << runTime << endl;
-			cout << "Generation Of Highest Fitness: " << generations << endl;
-			cout << "Highest Fitness: " << curMax << endl;
+		} 
+		else 
+		{
+			// do not print to console
+			//cout << "CURRENT RUN TIME: " << runTime << endl;
+			//cout << "Generation Of Highest Fitness: " << generations << endl;
+			//cout << "Highest Fitness: " << curMax << endl;
 
 			dout << "CURRENT RUN TIME: " << runTime << endl;
 			dout << "Generation Of Highest Fitness: " << generations << endl;
 			dout << "Highest Fitness: " << curMax << endl;
 		}
+
 		// reset generations for next iterations
 		deGen = 0;
+		
+		// modify LCV
 		runTime++;
 	}
 
-	fout.close();
 	dout.close();
 }
 
