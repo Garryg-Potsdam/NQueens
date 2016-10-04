@@ -12,6 +12,7 @@
 //                                                                           //
 ///////////////////////////////////////////////////////////////////////////////
 
+#include <iostream>
 #include <ctime>
 #include <fstream>
 #include "Population.h"
@@ -73,12 +74,12 @@ int main() {
 	dout.open(DETAILED_OUT.c_str());
 
 	// Default generations
-	
+    srand(time(NULL));	
 
 	while (runTimesTotal > runTime) {
 		// Seed rand in main to maintain pseudo-randomness 
 		// and not reseed with every call to receive a new random number
-		srand(time(NULL));
+//		srand(time(NULL));
 
 		// is there a solution
 		// Population of randomly generated genotypes

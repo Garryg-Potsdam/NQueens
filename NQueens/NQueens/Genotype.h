@@ -16,6 +16,7 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include <cstdlib>
 
 const float EPSILON = 0.0001f;
 

@@ -13,6 +13,7 @@
 //                                                                           //
 ///////////////////////////////////////////////////////////////////////////////
 
+
 #include "Population.h"
 
 /*
@@ -115,7 +116,7 @@ void Population::radiation() {
 // Post-Condition: takes a chunk from each parent and builds a new child then 
 //                 mutates 10% of the time
 // Returns:        child - the child of the two spliced parents
-Genotype Population::Crossover(Genotype &parentOne, Genotype &parentTwo, int split) {
+Genotype Population::Crossover(Genotype parentOne, Genotype parentTwo, int split) {
 	// Parents to splice
 	GenotypeLocs one;
 	one.assign(N, 0);

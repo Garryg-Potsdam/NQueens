@@ -29,8 +29,8 @@ public:
 
 	// Parameters: n - the range to return a random in
 	// Returns: a number in range [0, n]
-	Genotype Crossover(Genotype & rentOne, 
-							Genotype & rentTwo, 
+	Genotype Crossover(Genotype parentOne, 
+							Genotype parentTwo, 
 							int split);
 
 	// Returns: a genotype at a specified location
