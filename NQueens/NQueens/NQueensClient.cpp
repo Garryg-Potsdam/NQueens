@@ -154,9 +154,21 @@ int main()
 			//cout << "Solution: " << endl << mainPop.getSolution() << endl;
 
 			dout << "CURRENT RUN TIME: " << runTime << endl;
-			dout << "Generation Of Highest Fitness: " << generationNumOfHighestFitness << endl;
+			dout << "Generation Of Highest Fitness: " << 
+				generationNumOfHighestFitness << endl;
 			dout << "Highest Fitness: " << curMax << endl;
 			dout << "Solution: " << endl << mainPop.getSolution() << endl;
+
+			string solOut = "R" + to_string(runTime) +"G" 
+				+ to_string(generationNumOfHighestFitness) + ".sol";
+
+			fstream fout;
+
+			fout.open(solOut.c_str());
+
+			fout << mainPop.getSolution();
+
+			fout.close();
 		} 
 		else 
 		{
@@ -169,6 +181,12 @@ int main()
 			dout << "Generation Of Highest Fitness: " << generations << endl;
 			dout << "Highest Fitness: " << curMax << endl;
 		}
+		
+		// Print a pretty line
+		dout << endl;
+		for (int i = 0; i < 40; i++)
+			dout << "- ";
+		dout << endl;
 
 		// reset generations for next iterations
 		deGen = 0;
@@ -177,6 +195,7 @@ int main()
 		runTime++;
 	}
 
+	
 	dout.close();
 }
 
