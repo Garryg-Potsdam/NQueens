@@ -134,7 +134,7 @@ float Genotype::CalculateFitness()
 {
 	float totCollisions = 0.0f;	
 	totCollisions = GetRowCollisions() + GetDiaCollisions() + EPSILON;
-	// set PDM	
+	// set PDM
 	return (1 / totCollisions);
 }
 
