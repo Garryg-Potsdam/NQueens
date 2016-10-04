@@ -48,6 +48,7 @@ void Genotype::SetGenotypeLocs(GenotypeLocs &locs)
 	{
 		gl[i] = locs[i];
 	}
+	CalculateFitness();
 }
 
 void Genotype::GetGenotypeLocs(GenotypeLocs &locs)
@@ -65,11 +66,21 @@ void Genotype::MutateGenotype(int one, int two)
 	gl[one] = gl[two];
 
 	gl[two] = temp;
+	CalculateFitness();
+}
+
+// Mutate a specific spot to add new values
+void Genotype::MutateGenotypeAllele(int one, int two, int n)
+{
+	gl[one] = rand() % n;
+
+	gl[two] = rand() % n;
+	CalculateFitness();
 }
 
 float Genotype::GetFitness()
 {
-	return CalculateFitness();
+	return fitness;
 }
 
 bool Genotype::WasSelectedForMatingPool()
@@ -120,7 +131,7 @@ void Genotype::GenerateGenotype(int s)
 
 	if (rand() % 100 < 10)
 		MutateGenotype(rand() % s, rand() % s);
-
+	CalculateFitness();
 	mFlag = false;
 }
 
@@ -130,12 +141,12 @@ void Genotype::printGenome() {
 	std::cout << std::endl;
 }
 
-float Genotype::CalculateFitness()
+void Genotype::CalculateFitness()
 {
 	float totCollisions = 0.0f;	
 	totCollisions = GetRowCollisions() + GetDiaCollisions() + EPSILON;
 	// set PDM
-	return (1 / totCollisions);
+	fitness = (1 / totCollisions);
 }
 
 float Genotype::GetRowCollisions()

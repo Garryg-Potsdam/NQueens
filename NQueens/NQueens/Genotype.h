@@ -45,10 +45,12 @@ public:
 
 	std::string ToString();
 
+	void MutateGenotypeAllele(int one, int two, int n);
+
 protected:
 	void GenerateGenotype(int s);
 
-	float CalculateFitness();
+	void CalculateFitness();
 	
 	float GetRowCollisions();
 
@@ -56,7 +58,7 @@ protected:
 
 private:
 	std::string PrintTopAndBottom();
-
+	float fitness;
 	GenotypeLocs gl;
 	int arrSize;
 	bool mFlag;
