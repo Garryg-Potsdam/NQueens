@@ -74,7 +74,7 @@ artifacts/
 *.svclog
 *.scc
 *.out
-*.sol
+*.solution
 
 # Chutzpah Test files
 _Chutzpah*

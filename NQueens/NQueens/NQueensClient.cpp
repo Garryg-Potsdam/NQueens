@@ -42,7 +42,7 @@ void ClearConsoleBecauseWeAreNotOnWindows();
 int main() 
 {
 	// Values to run program for
-	int N, generations, runTimesTotal;
+	int N, generations, totalRunTimes;
 
 	// Gather information
 	cout << "Enter the board size: ";
@@ -52,10 +52,10 @@ int main()
 	cin >> generations; 
 	
 	cout << "Amount of run times: ";
-	cin  >> runTimesTotal;
+	cin  >> totalRunTimes;
 	
 	// LCV
-	int runTime = 0;
+	//int runTime = 0;
 	
 	// Calculate values
 	// Population size
@@ -77,10 +77,10 @@ int main()
 
 	dout.open(DETAILED_OUT.c_str());
 
-	while (runTimesTotal > runTime) 
+	for (int r = 0; r < totalRunTimes; r++)
 	{
 		ClearConsoleBecauseWeAreNotOnWindows();
-		cout << (runTime * 100) / runTimesTotal << "% complete" << endl;
+		cout << (r * 100) / totalRunTimes << "% complete" << endl;
 
 		// reseed random for each run time
 		srand(time(NULL));
@@ -160,20 +160,19 @@ int main()
 			//cout << "Highest Fitness: " << curMax << endl;
 			//cout << "Solution: " << endl << mainPop.getSolution() << endl;
 
-			dout << "CURRENT RUN TIME: " << runTime << endl;
+			dout << "CURRENT RUN TIME: " << r << endl;
 			dout << "Generation Of Highest Fitness: " << 
 				generationNumOfHighestFitness << endl;
 			dout << "Highest Fitness: " << curMax << endl;
 			dout << "Solution: " << endl << mainPop.getSolution() << endl;
 
-			string solOut = "R" + to_string(runTime) +"G" 
-				+ to_string(generationNumOfHighestFitness) + ".sol";
+			string solOut = "Boards" + to_string(r) + ".solution";
 
 			fstream fout;
 
-			fout.open(solOut.c_str());
+			fout.open(solOut.c_str(), fstream::app);
 
-			fout << mainPop.getSolution();
+			fout << endl << mainPop.getSolution();
 
 			fout.close();
 		} 
@@ -184,7 +183,7 @@ int main()
 			//cout << "Generation Of Highest Fitness: " << generations << endl;
 			//cout << "Highest Fitness: " << curMax << endl;
 
-			dout << "CURRENT RUN TIME: " << runTime << endl;
+			dout << "CURRENT RUN TIME: " << r << endl;
 			dout << "Generation Of Highest Fitness: " << generations << endl;
 			dout << "Highest Fitness: " << curMax << endl;
 		}
@@ -197,9 +196,6 @@ int main()
 
 		// reset generations for next iterations
 		deGen = 0;
-		
-		// modify LCV
-		runTime++;
 	}
 
 	
