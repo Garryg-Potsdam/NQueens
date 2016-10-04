@@ -33,7 +33,7 @@ Population::Population(int n, int popSize, bool build) {
 	populationSize = popSize;
 	gts.assign(popSize, Genotype(N));
 	if (build)		
-		buildPopulation();	
+		buildPopulation();
 }
 
 // Post-Condition: fills population with random genotypes and mutates
@@ -42,35 +42,19 @@ void Population::buildPopulation() {
 	for (int i = 0; i < populationSize; i++) {
 		gts[i] = Genotype(N);
 		Genotype temp = gts[i];
-		size++;		
+		size++;
 	}
 }
 
-// Parameters: n - the range to return a random in
-// Returns: a number in range [0, n]
-int Population::getRandom(int n) {
-	return rand() % n;
+// Returns: size - the size of the population
+int Population::getSize() {
+	return size;
 }
 
 // Returns: a genotype at a specified location
 Genotype Population::getGenotype(int i) {
 	return gts[i];
 }
-
-// Parameters:      children - the population to add children from
-//             totalChildren - the total children you want added
-// Post-Condition: adds all the desired children from one population to another
-void Population::addGenes(Population newGenes, int totalGenes) {
-	//newGenes.sort();
-	for (int i = totalGenes - 1; i >= 0; i--) {
-		Genotype newG = newGenes.getGenotype(i);
-		int oldG = rand() % getSize();
-		if (newG.GetFitness() > gts[oldG].GetFitness()) {
-			gts[oldG] = newG;
-		}
-	}
-}
-
 
 // Parameters: gt - the genotype of a child you want to add to a population
 // Post-Condition: adds child gt to population if there is room
@@ -79,6 +63,51 @@ void Population::addGene(Genotype gt) {
 		gts[size] = gt;
 		size++;
 	}
+}
+
+// Parameters:      children - the population to add children from
+//             totalChildren - the total children you want added
+// Post-Condition: adds all the desired children from one population to another
+void Population::addGenes(Population newGenes, int totalGenes) {
+	for (int i = 0; i < totalGenes; i++) {
+		Genotype newG = newGenes.getGenotype(i);
+		int oldG = rand() % getSize();
+		if (gts[oldG].GetFitness() < newG.GetFitness())
+			gts[oldG] = newG;
+	}
+}
+
+// Returns the highest current fitness
+float Population::getHighestFitness() {
+	float temp = 0.0;
+	for (int i = 0; i < getSize(); i++)
+		if (gts[i].GetFitness() > temp)
+			temp = gts[i].GetFitness();
+	return temp;
+}
+
+// If we find a solution, grab it and send it up
+std::string Population::getSolution() {
+	for (int i = 0; i < getSize(); i++)
+		if (gts[i].GetFitness() == 10000)
+			return gts[i].ToString();
+}
+
+// Parameters: kill - the amount of population to replace
+void Population::annihilate(int kill) {
+	Population newSeeds(N, kill, true);
+	for (int i = 0; i < newSeeds.getSize(); i++) {
+		int oldG = rand() % populationSize;
+		if (gts[oldG].GetFitness() < newSeeds.getGenotype(i).GetFitness())
+			gts[oldG] = newSeeds.getGenotype(i);
+	}
+}
+
+// Mutate half the population if we are stuck at a local max
+void Population::radiation() {
+	for (int i = 0; i < getSize(); i++)
+		if (rand() % 100 < 50)
+			gts[i].MutateGenotype(rand() % N, rand() % N);
 }
 
 // Parameters: parentOne - the first parent to take a chunk of genotype from
@@ -107,88 +136,7 @@ Genotype Population::Crossover(Genotype &parentOne, Genotype &parentTwo, int spl
 	// the new child
 	Genotype child = Genotype(N);	
 	child.SetGenotypeLocs(feedus);
-	if (getRandom(100) < (N / 10))
-		child.MutateGenotype(getRandom(N), getRandom(N));
+	if (rand() % 100 < (N / 10))
+		child.MutateGenotype(rand() % N, rand() % N);
 	return child;
-}
-
-// Returns: size - the size of the population
-int Population::getSize() {
-	return size;
-}
-
-// Post: Condition: sorts the population by fitness
-void Population::sort() {
-	mergesort(gts, 0, populationSize - 1);
-}
-
-void Population::annihilate(int kill) {
-	Population newSeeds(N, getSize() / 4, true);
-	for (int i = 0; i < newSeeds.getSize(); i++)
-		gts[i] = newSeeds.getGenotype(i);
-}
-
-// Post: Condition: shuffles the population
-void Population::shuffle() {
-	for (int i = 0; i < N * 10; i++) {
-		int randOne = getRandom(N * 10);
-		int randTwo = getRandom(N * 10);
-		Genotype temp = gts[randOne];
-		gts[randOne] = gts[randTwo];
-		gts[randTwo] = temp;
-	}
-}
-
-// Parameters: genes - a vectior of Genotypes to sort by fitness
-//               low - the left most position
-//              high - the right most position
-// Post-Condition: sorts the genes by fitness
-void Population::mergesort(std::vector<Genotype> genes, int low, int high) {
-	int mid;
-	if (low < high) {
-		mid = (low + high) / 2;
-		mergesort(genes, low, mid);
-		mergesort(genes, mid + 1, high);
-		merge(genes, low, high, mid);
-	}
-	return;
-}
-
-// Parameters: genes - a vectior of Genotypes to sort by fitness
-//               low - the left most position
-//               mid - the middle position of vector chunk
-//              high - the right most position
-// Post-Condition: sorts the genes by fitness
-void Population::merge(std::vector<Genotype> genes, int low, int high, int mid) {
-	int i, j, k;
-	std::vector<Genotype> allele;
-	int size = getSize();
-	allele.assign(1000, Genotype(N));
-	i = low;
-	k = low;
-	j = mid + 1;
-	while (i <= mid && j <= high) {
-		if (genes[i].GetFitness() < genes[j].GetFitness()) {
-			allele[k] = genes[i];
-			k++;
-			i++;
-		} else {
-			allele[k] = genes[j];
-			k++;
-			j++;
-		}
-	}
-	while (i <= mid) {
-		allele[k] = genes[i];
-		k++;
-		i++;
-	}
-	while (j <= high) {
-		allele[k] = genes[j];
-		k++;
-		j++;
-	}
-	for (i = low; i < k; i++) {
-		genes[i] = allele[i];
-	}
 }
