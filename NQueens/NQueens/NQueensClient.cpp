@@ -33,12 +33,12 @@ Population buildParents(Population mainPop, int genomeSize, int parentSize, int 
 // Parameters:    parents - the genotypes to be mated
 //			   genomeSize - the size of N the genome
 //             parentSize - the amount of parents in the parent population
-// Returns: a batch of fresh children
+// Post-Condition: adds a batch of fresh children
 Population makeBabies(Population parents, int gnomeSize, int parentSize);
 
 int main() {
 	// Values to run program for
-	int N, generations, runTimes, childrenCount;
+	int N, generations, runTimesTotal;
 
 	// Gather information
 	cout << "Enter the board size: ";
@@ -48,16 +48,16 @@ int main() {
 	cin >> generations; 
 	
 	cout << "Amount of run times: ";
-	cin  >> runTimes;
-
-	cout << "How many children: ";
-	cin >> childrenCount;
+	cin  >> runTimesTotal;
+	int runTime = 0;
 	
 	// Calculate values
 	// Population size
-	int popSize = N * 10;
+	int popSize = N * 10;	
+	// Children size
+	int childrenCount = popSize / 4;
 	// radiation to break local maximum
-	int mutate = N * 3;	
+	int mutate = N * 5;	
 	// The amount of parents
 	int parentSize = N;
 	// increment if parentSize is odd
@@ -73,9 +73,9 @@ int main() {
 	dout.open(DETAILED_OUT.c_str());
 
 	// Default generations
-	int deGen = generations;
+	
 
-	while (runTimes > 0) {
+	while (runTimesTotal > runTime) {
 		// Seed rand in main to maintain pseudo-randomness 
 		// and not reseed with every call to receive a new random number
 		srand(time(NULL));
@@ -83,67 +83,90 @@ int main() {
 		// is there a solution
 		// Population of randomly generated genotypes
 		Population mainPop = Population(N, popSize, true);
-
+		
+		int deGen = 0;
+		int generationNumOfHighestFitness = 0;
+		
+		
+		
 		// are we at a local max
 		int countLocalMax = 0;
 		float prevMax = mainPop.getHighestFitness();
-		int curMax = 0;
+		float curMax = prevMax;
 		// if a solution is found its stored in this
 		if (prevMax != 10000) {
-			fout << "Run Times Left: " << runTimes << endl;
-			dout << "\n--------------------------------------------------------------------------------\n\nRun Times Left: " << runTimes << endl;
-			cout << "Run Times Left: " << runTimes << endl;
-
+			
 			// Main evolution loop
-			while (generations > 0) {			
+			while (generations > deGen) {
 
-				if (prevMax == 10000) {
-					cout << mainPop.getSolution() << endl;
-					break;
+				if (curMax == prevMax) {
+					countLocalMax++;					
 				} else {
-					countLocalMax++;
+					generationNumOfHighestFitness = deGen;
+					prevMax = curMax;
+					countLocalMax = 0;					
 				}
+				
 				
 				// if we are stuck at a local max, why not pour in some
 				// radiation
-				if (countLocalMax == mutate) {
+				if (countLocalMax == popSize)
+					mainPop.annihilate(popSize / 2);
+				else if (countLocalMax == mutate) {
 					mainPop.radiation();
+					
 					countLocalMax = 0; // reset countLocalMax
-					// set the current max
-					prevMax = mainPop.getHighestFitness();
-					if (prevMax == 10000) {
-						cout << mainPop.getSolution() << endl;
-						break;
-					}
-				}
+					// set the current max					
+					curMax = mainPop.getHighestFitness();
+					if (curMax == 10000) {break;}
 
-				dout << "Generations Left: " << generations << endl;
+				}
+				
 				// if we find a solution we grab it and stop evolving				
 				// Population of this gens parents
+				
 				Population parents = buildParents(mainPop, N, parentSize, popSize);
-
+				
 				// Population of this gens children
 				Population children = makeBabies(parents, N, childrenCount);
+
+				mainPop.addGenes(children);
 				
-				// Add the best children elimnate the worst from previous gen
-				mainPop.addGenes(children, parentSize);
-
-				// introduce a newly migrated population
-				mainPop.annihilate(childrenCount);	
-
 				// set the current max
-				prevMax = mainPop.getHighestFitness();
+				curMax = mainPop.getHighestFitness();
+				//cout << "curMax: " << curMax << endl;
+				if (curMax == 10000) {break;}
 
-				// decrement generations left
-				generations--;
+				// increment for current gen
+				deGen++;
+				
 			}
 		} else {
-			cout << mainPop.getSolution() << endl;
-		}
+			// do nothing this time
+		}		
+		
+		if (curMax == 10000) {
+			cout << "CURRENT RUN TIME: " << runTime << endl;
+			cout << "Generation Of Highest Fitness: " << generationNumOfHighestFitness << endl;
+			cout << "Highest Fitness: " << curMax << endl;
+			cout << "Solution: " << endl << mainPop.getSolution() << endl;
 
+			dout << "CURRENT RUN TIME: " << runTime << endl;
+			dout << "Generation Of Highest Fitness: " << generationNumOfHighestFitness << endl;
+			dout << "Highest Fitness: " << curMax << endl;
+			dout << "Solution: " << endl << mainPop.getSolution() << endl;
+		} else {
+			cout << "CURRENT RUN TIME: " << runTime << endl;
+			cout << "Generation Of Highest Fitness: " << generations << endl;
+			cout << "Highest Fitness: " << curMax << endl;
+
+			dout << "CURRENT RUN TIME: " << runTime << endl;
+			dout << "Generation Of Highest Fitness: " << generations << endl;
+			dout << "Highest Fitness: " << curMax << endl;
+		}
 		// reset generations for next iterations
-		generations = deGen;
-		runTimes--;
+		deGen = 0;
+		runTime++;
 	}
 
 	fout.close();
@@ -163,7 +186,7 @@ Population buildParents(Population mainPop, int gnomeSize, int parentSize, int p
 		int one   = rand() % popSize;
 		int two   = rand() % popSize;
 		int three = rand() % popSize;
-
+		
 		// check if they have mated yet if not grab and set mated true
 		while (mainPop.getGenotype(one).WasSelectedForMatingPool())
 			one = rand() % popSize;
@@ -186,7 +209,7 @@ Population buildParents(Population mainPop, int gnomeSize, int parentSize, int p
 		Genotype materOne = mainPop.getGenotype(one);
 		Genotype materTwo = mainPop.getGenotype(two);
 		Genotype materThree = mainPop.getGenotype(three);
-
+		
 		// Choose the best fit
 		if (materOne.GetFitness() >= materTwo.GetFitness())
 			if (materOne.GetFitness() >= materThree.GetFitness())
@@ -197,7 +220,7 @@ Population buildParents(Population mainPop, int gnomeSize, int parentSize, int p
 			if (materTwo.GetFitness() > materThree.GetFitness())
 				parents.addGene(materTwo);
 			else
-				parents.addGene(materThree);
+				parents.addGene(materThree);		
 	}
 
 	// reset all the maters to not mated
@@ -236,6 +259,7 @@ Population makeBabies(Population parents, int gnomeSize, int childCount) {
 		parents.getGenotype(two).SetSelectedForMatingPool(true);
 
 		// add new child gene to child pop from parents
+		const long double sysTime = time(0);
 		children.addGene(parents.Crossover(parents.getGenotype(one), parents.getGenotype(two), rand() % gnomeSize));
 	}
 	return children;
