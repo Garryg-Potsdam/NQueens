@@ -37,9 +37,8 @@ public:
 	Genotype getGenotype(int i);
 	
 	// Parameters:      children - the population to add children from
-	//             totalChildren - the total children you want added
 	// Post-Condition: adds all the desired children from one population to another
-	void addGenes(Population newGenes, int totalGenes);
+	void addGenes(Population newGenes);
 	
 	// Parameters: parentOne - the first parent to take a chunk of genotype from
 	//             parentTwo - the second paretn to take a chunk of genotype from
@@ -59,7 +58,7 @@ public:
 
 	// If we find a solution, grab it and send it up
 	std::string getSolution();
-
+	
 protected:
 	// the Genotype vector where the population is kept
 	std::vector<Genotype> gts;
@@ -78,5 +77,5 @@ private:
 
 	// the current size of the population
 	int size;
-	
+
 };
