@@ -33,30 +33,30 @@ Genotype::Genotype()
 // Post:	A vector to hold a default size of 'size' will be created
 Genotype::Genotype(int s)
 {
-	SetArrSize(s);
+	SetVectorSize(s);
 	gl.resize(s);
 	GenerateGenotype(s);
 }
 
 // Params:	None
 // Post:	The size of the gl vector is returned
-int Genotype::getArrSize() const 
+int Genotype::GetVectorSize() const 
 {
-	return arrSize;
+	return vectorSize;
 }
 
 // Params:	size - new size of the vector
 // Post:	The size of the vector is changed to 'size'
-void Genotype::SetArrSize(int size)
+void Genotype::SetVectorSize(int size)
 {
-	arrSize = size;
+	vectorSize = size;
 }
 
 // Params:	A seperate genotype is created is given to method
 // Post:	The object is updated to the given locs
 void Genotype::SetGenotypeLocs(GenotypeLocs &locs)
 {
-	for (int i = 0; i < arrSize; i++)
+	for (int i = 0; i < vectorSize; i++)
 	{
 		gl[i] = locs[i];
 	}
@@ -67,7 +67,7 @@ void Genotype::SetGenotypeLocs(GenotypeLocs &locs)
 // Post:	The locs is updated to the current object
 void Genotype::GetGenotypeLocs(GenotypeLocs &locs)
 {
-	for (int i = 0; i < arrSize; i++)
+	for (int i = 0; i < vectorSize; i++)
 	{
 		locs[i] = gl[i];
 	}
@@ -123,14 +123,14 @@ std::string Genotype::ToString()
 {
 	std::string ans = PrintTopAndBottom();
 
-	for (int row = 0; row < arrSize; row++) {
+	for (int row = 0; row < vectorSize; row++) {
 		ans += "\n|";
-		for (int col = 0; col < arrSize; col++) {
+		for (int col = 0; col < vectorSize; col++) {
 			if (gl[col] == row)
 				ans += "Q";
 			else
 				ans += " ";
-			if (col < arrSize - 1)
+			if (col < vectorSize - 1)
 				ans += "|";
 		}
 		ans += "|";
@@ -186,13 +186,13 @@ float Genotype::GetRowCollisions()
 	float tot = 0;
 
 	std::vector<int> v;
-	v.resize(arrSize);
+	v.resize(vectorSize);
 
-	for (int i = 0; i < arrSize; i++) {
+	for (int i = 0; i < vectorSize; i++) {
 		v[gl[i]]++;		
 	}
 
-	for (int i = 0; i < arrSize; i++) {
+	for (int i = 0; i < vectorSize; i++) {
 		if (v[i] > 0)
 			tot += (v[i] * (v[i] - 1)) / 2;
 	}
@@ -206,10 +206,10 @@ float Genotype::GetDiaCollisions()
 {
 	float tot = 0;
 	
-	for (int col = 0; col < arrSize - 1; col++) {		
+	for (int col = 0; col < vectorSize - 1; col++) {		
 		float y1 = col;
 		float x1 = gl[col];
-		for (int col2 = col + 1; col2 < arrSize; col2++) {
+		for (int col2 = col + 1; col2 < vectorSize; col2++) {
 			float y2 = col2;
 			float x2 = gl[col2];
 			if (x2 == x1)
@@ -235,7 +235,7 @@ std::string Genotype::PrintTopAndBottom()
 
 	ans = "+";
 
-	for (int i = 0; i < arrSize; i++)
+	for (int i = 0; i < vectorSize; i++)
 		ans += "-+";
 
 	return ans;

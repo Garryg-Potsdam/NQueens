@@ -49,14 +49,14 @@ public:
 
 	// Params:	None
 	// Post:	The size of the gl vector is returned
-	int getArrSize() const;
+	int GetVectorSize() const;
 
 	// test function
 	/*void printGenome();*/
 
 	// Params:	size - new size of the vector
 	// Post:	The size of the vector is changed to 'size'
-	void SetArrSize(int size);
+	void SetVectorSize(int size);
 
 	// Params:	A seperate genotype is created is given to method
 	// Post:	The object is updated to the given locs
@@ -120,6 +120,6 @@ private:
 
 	GenotypeLocs gl;	// Vector to hold genome
 	float fitness;		// The fitness of the genome
-	int arrSize;		// Size of the Vector
+	int vectorSize;		// Size of the Vector
 	bool mFlag;			// PDM flag predicating if object is selected for mating
 };

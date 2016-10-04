@@ -20,9 +20,7 @@
 using namespace std;
 
 // Constants
-const string OUT_FILE = "out.out";
-
-const string DETAILED_OUT = "details.out";
+const string DETAILED_OUT = "details.out";		// File to output to
 
 // Parameters:    mainPop - the main population in the evolution
 //			   genomeSize - the size of N the genome
@@ -37,7 +35,8 @@ Population buildParents(Population mainPop, int genomeSize, int parentSize, int 
 // Post-Condition: adds a batch of fresh children
 Population makeBabies(Population parents, int gnomeSize, int parentSize);
 
-int main() {
+int main() 
+{
 	// Values to run program for
 	int N, generations, runTimesTotal;
 
@@ -73,8 +72,6 @@ int main() {
 	ofstream dout;
 
 	dout.open(DETAILED_OUT.c_str());
-
-
 
 	while (runTimesTotal > runTime) 
 	{
