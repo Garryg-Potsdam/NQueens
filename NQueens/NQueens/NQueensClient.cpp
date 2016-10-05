@@ -12,7 +12,6 @@
 //                                                                           //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include <iostream>
 #include <ctime>
 #include <fstream>
 #include "Population.h"
@@ -53,9 +52,7 @@ int main()
 	
 	cout << "Amount of run times: ";
 	cin  >> totalRunTimes;
-	
-	// LCV
-	//int runTime = 0;
+
 	
 	// Calculate values
 	// Population size
@@ -83,7 +80,7 @@ int main()
 		cout << (r * 100) / totalRunTimes << "% complete" << endl;
 
 		// reseed random for each run time
-		srand(time(NULL));
+		srand(time(NULL) + (r * 37));
 
 		// is there a solution
 		// Population of randomly generated genotypes
@@ -154,23 +151,19 @@ int main()
 		
 		if (curMax == 10000) 
 		{
-			// Do not print to console
-			//cout << "CURRENT RUN TIME: " << runTime << endl;
-			//cout << "Generation Of Highest Fitness: " << generationNumOfHighestFitness << endl;
-			//cout << "Highest Fitness: " << curMax << endl;
-			//cout << "Solution: " << endl << mainPop.getSolution() << endl;
-
 			dout << "CURRENT RUN TIME: " << r << endl;
 			dout << "Generation Of Highest Fitness: " << 
 				generationNumOfHighestFitness << endl;
 			dout << "Highest Fitness: " << curMax << endl;
 			dout << "Solution: " << endl << mainPop.getSolution() << endl;
-
-			string solOut = "Boards" + to_string(r) + ".solution";
+            
+			ostringstream sm;
+			sm << r;
+			string solOut = "Boards" + sm.str() + ".solution";
 
 			fstream fout;
 
-			fout.open(solOut.c_str(), fstream::app);
+			fout.open(solOut.c_str());
 
 			fout << endl << mainPop.getSolution();
 
@@ -178,11 +171,6 @@ int main()
 		} 
 		else 
 		{
-			// do not print to console
-			//cout << "CURRENT RUN TIME: " << runTime << endl;
-			//cout << "Generation Of Highest Fitness: " << generations << endl;
-			//cout << "Highest Fitness: " << curMax << endl;
-
 			dout << "CURRENT RUN TIME: " << r << endl;
 			dout << "Generation Of Highest Fitness: " << generations << endl;
 			dout << "Highest Fitness: " << curMax << endl;

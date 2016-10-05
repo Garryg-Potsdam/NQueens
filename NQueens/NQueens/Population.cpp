@@ -90,7 +90,7 @@ float Population::getHighestFitness() {
 std::string Population::getSolution() {
 	for (int i = 0; i < getSize(); i++)
 		if (gts[i].GetFitness() == 10000)
-			return gts[i].ToString();
+			return gts[i].ToString() + "\nSolution Vector: " + gts[i].printGenome();
 }
 
 // Parameters: kill - the amount of population to replace

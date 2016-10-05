@@ -17,6 +17,7 @@
 #include <vector>
 #include <iostream>
 #include <cstdlib>
+#include <sstream>
 
 // Epsilon to calculate fitness
 const float EPSILON = 0.0001f;
@@ -50,9 +51,9 @@ public:
 	// Params:	None
 	// Post:	The size of the gl vector is returned
 	int GetVectorSize() const;
-
-	// test function
-	/*void printGenome();*/
+	
+    // Returns: a string of the genome vector
+    std::string printGenome();
 
 	// Params:	size - new size of the vector
 	// Post:	The size of the vector is changed to 'size'

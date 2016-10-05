@@ -162,12 +162,16 @@ void Genotype::GenerateGenotype(int s)
 	mFlag = false;
 }
 
-// test function
-//void Genotype::printGenome() {
-//	for (int i = 0; i < arrSize; i++)
-//		std::cout << "[" << gl[i] <<  "]";
-//	std::cout << std::endl;
-//}
+// Returns: a string of the genome vector 
+std::string Genotype::printGenome() {
+    std::string v = "";
+	for (int i = 0; i < GetVectorSize(); i++) {
+        std:: ostringstream sm;
+        sm << gl[i];
+		v += "[" + sm.str() +  "]";
+    }
+	return v + "\n";
+}
 
 // Params:	None
 // Post:	The fitness for the current genotype is calculated
